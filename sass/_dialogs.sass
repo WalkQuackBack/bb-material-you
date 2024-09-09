@@ -1,0 +1,774 @@
+@use "stateLayer"
+
+dialog.dialog
+    background-color: var(--md-sys-color-surface-container)
+    border-radius: 28px
+    overflow: hidden
+    min-width: 280px
+    max-width: 560px
+    height: auto
+    box-shadow: none
+    animation: fadeIn 400ms cubic-bezier(0.05, 0.7, 0.1, 1.0), scaleYIn 400ms cubic-bezier(0.05, 0.7, 0.1, 1.0)
+    & > content, .dialog_wrapper > content, .dialog_content
+        padding: 24px
+    .dialog_bar
+        &.markdown
+            padding: 12px
+            & > p
+                font-weight: var(--md-sys-typescale-body-large-font-weight)
+                font-size: var(--md-sys-typescale-body-large-font-size)
+        &.button_bar
+            gap: 6px
+            bottom: 12px
+
+    .dialog_content
+        margin: 0 12px
+
+    &#settings h2, &#keybindings h2, &#theme h2
+        margin-top: 0
+        padding-block-end: 16px
+        font-size: var(--md-sys-typescale-headline-small-font-size)
+        font-weight: var(--md-sys-typescale-headline-small-font-weight)
+
+.dialog_sidebar_menu_button
+    display: none
+
+.dialog_handle
+    background: var(--md-sys-color-surface)
+    height: 56px
+    .dialog_title
+        padding-left: calc(32px + 16px)
+        padding-top: 12px
+        font-size: var(--md-sys-typescale-title-large-font-size)
+        font-weight: var(--md-sys-typescale-title-large-font-weight)
+
+.dialog_menu_button
+    position: absolute
+    width: 20%
+    min-width: 100px
+    height: 80%
+    padding: 0
+    float: none
+    text-align: left
+    margin-left: calc(32px + 4px)
+    top: 50%
+    transform: translateY(-50%)
+    & > i
+        display: none
+    &::after
+        @include stateLayer.base
+    &:hover
+        &::after
+            @include stateLayer.hover
+    &:active
+        &::after
+            @include stateLayer.active
+
+.dialog_close_button
+    left: 16px
+    top: 14px
+    border-radius: 50%
+
+.dialog_message_box_command
+    border-radius: 8px
+    font-size: var(--md-sys-typescale-body-large-font-size)
+    font-weight: var(--md-sys-typescale-body-large-font-weight)
+    background-color: var(--md-sys-color-surface-container-high)
+    position: relative
+    padding: 6px 12px
+    &::before
+        margin-right: 0
+    &::after
+        @include stateLayer.base
+    &:hover
+        background-color: var(--md-sys-color-surface-container-high)
+        color: var(--md-sys-color-on-surface)
+        &::after
+            @include stateLayer.hover
+
+/* sidebar > topbar */
+.dialog_sidebar
+    grid-area: top
+    min-height: 48px
+    overflow-x: auto
+    padding: 6px
+
+    background-color: var(--md-sys-color-surface-container-high)
+    .dialog_sidebar_pages,
+    .dialog_sidebar_actions
+        display: flex
+        align-content: center
+        flex-wrap: wrap
+        flex-direction: row
+        margin-top: 0
+        margin-bottom: 0
+        li
+            width: auto
+            min-width: 96px
+            padding: 6px 0
+            text-align: center
+            flex-grow: 1
+            border-left: none
+    .dialog_sidebar_pages
+        margin-bottom: 16px
+        li
+            position: relative
+            font-weight: var(--md-sys-typescale-title-small-font-weight)
+            font-size: var(--md-sys-typescale-title-small-font-size)
+            color: var(--md-sys-color-on-surface-variant)
+
+            &.error
+                content: ""
+                width: 100%
+                height: 2px
+                position: absolute
+                bottom: 0
+                left: 0
+                right: 0
+                transition: 250ms ease transform
+                transform: translateX(-100%) scaleX(80%)
+
+            &::before
+                @include stateLayer.base
+
+            &:hover
+                color: var(--md-sys-color-on-surface)
+                &::before
+                    @include stateLayer.hover
+
+            &:active
+                &::before
+                    @include stateLayer.active
+
+            &::after
+                content: ""
+                width: 100%
+                height: 2px
+                position: absolute
+                bottom: 0
+                left: 0
+                right: 0
+                transition: 250ms ease transform
+                transform: translateX(-100%) scaleX(80%)
+            &.selected
+                border-left: none
+                background: var(--md-sys-color-surface-container)
+                color: var(--md-sys-color-on-surface)
+                &::after
+                    background-color: var(--md-sys-color-primary)
+                    transform: translateX(0)
+
+    .dialog_sidebar_actions
+        justify-content: start
+        border-top: 2px solid transparent
+        position: relative
+        isolation: isolate
+        padding: 4px
+        // TODO: Make less hacky
+        margin-bottom: -16px
+        margin-inline: -6px
+        &::before
+            content: ""
+            position: absolute
+            inset: 0
+            z-index: -1
+            background-color: var(--md-sys-color-surface-container-highest)
+        li
+            flex-grow: 0
+            margin-inline: 2px
+            font-size: var(--md-sys-typescale-label-large-font-size)
+            font-weight: var(--md-sys-typescale-label-large-font-weight)
+            padding-inline: 8px
+            position: relative
+            i
+                margin-top: 2px
+                margin-left: 0
+                margin-right: 6px
+                font-size: 16px
+                &.fa_big
+                    transform: scale(0.9) translateY(-2px)
+
+            &::after
+                @include stateLayer.base
+
+            &:hover
+                &::after
+                    @include stateLayer.hover
+
+            &:active
+                &::after
+                    @include stateLayer.active
+
+// Mobile compat
+body.is_mobile
+    .dialog_sidebar
+        display: block !important
+
+#blackout.darken
+    background-color: var(--md-sys-color-scrim)
+    opacity: 0.32
+    animation: fadeIn 250ms cubic-bezier(0, 0, 0, 1)
+
+.dialog_wrapper.has_sidebar
+    grid-template-rows: minmax(72px, auto) auto 42px
+    grid-template-columns: auto
+    grid-template-areas: "top" "content" "buttons"
+
+.tab_bar, #plugin_browser_page_tab_bar
+    display: flex
+    align-content: center
+    flex-wrap: wrap
+    flex-direction: row
+    margin-top: 0
+    margin-bottom: 0
+
+    div, li
+        position: relative
+        font-weight: var(--md-sys-typescale-label-medium-font-weight)
+        font-size: var(--md-sys-typescale-label-medium-font-size)
+        color: var(--md-sys-color-on-surface-variant)
+
+        width: auto
+        min-width: 96px
+        margin: 0
+        padding: 6px 0
+        text-align: center
+        flex-grow: 1
+        border-bottom: none
+        overflow: visible
+
+        &::before
+            @include stateLayer.base
+
+        &:hover
+            color: var(--md-sys-color-on-surface)
+            &::before
+                @include stateLayer.hover
+
+        &:active
+            &::before
+                @include stateLayer.active
+
+        &::after
+            content: ""
+            width: 100%
+            height: 2px
+            position: absolute
+            bottom: 0
+            left: 0
+            right: 0
+            transition: 250ms ease transform
+            transform: translateX(-100%) scaleX(80%)
+
+        &.selected, &.open
+            border-bottom: none
+            background: transparent
+            color: var(--md-sys-color-on-surface)
+            &::after
+                background-color: var(--md-sys-color-primary)
+                transform: translateX(0)
+
+// plugins
+#plugins
+    background: var(--md-sys-color-background)
+    & > .dialog_wrapper > content
+        padding: 0
+
+#plugin_browser_sidebar
+    width: 300px
+    background-color: var(--md-sys-color-surface-container)
+    padding: 24px
+    gap: 8px
+    border-right: none
+
+#plugins .tab_bar
+    margin-top: 0
+    background-color: var(--md-sys-color-surface)
+    border-radius: 12px
+    padding-inline: 8px
+
+#plugin_browser_page
+    .plugin_browser_page_header
+        &.disabled_plugin
+            & > .button_bar
+                button:nth-child(1)
+                    border: 1px solid transparent
+
+                    background-color: var(--md-sys-color-surface-variant) !important
+                    color: var(--md-sys-color-primary) !important
+        & > .button_bar
+            button
+                width: 48px
+                height: 48px
+                border-radius: 100px
+                padding: 12px
+                margin-left: 8px
+                min-width: 0
+
+                & > i
+                    width: 24px
+                    height: 24px
+                    line-height: 22px
+                    font-size: 24px
+                    margin: 0
+                    padding: 0
+
+                & > span
+                    display: none
+
+                &:nth-child(1)
+                    border: 1px solid transparent
+
+                    background-color: var(--md-sys-color-primary) !important
+                    color: var(--md-sys-color-on-primary) !important
+
+                &:nth-child(2)
+                    border: 1px solid transparent
+
+                    background-color: var(--md-sys-color-error-container) !important
+                    color: var(--md-sys-color-on-error-container) !important
+
+#plugins_list_main_bar
+    background-color: var(--md-sys-color-surface-container-high)
+    padding: 6px
+    height: auto
+    border-radius: 12px
+    gap: 4px
+
+#plugin_browser_page_tab_bar
+    background-color: var(--md-sys-color-surface)
+    border-radius: 8px
+    padding-inline: 12px
+    margin-inline: 24px
+    height: auto
+    width: auto
+    li
+        cursor: default
+
+#plugin_list
+    background-color: transparent
+    border-radius: 12px
+    padding-right: var(--_scrollbar-width)
+    & > li
+        padding: 12px 16px
+        margin: 6px 0
+        background: transparent
+        position: relative
+        border-radius: 12px
+        &::after
+            @include stateLayer.base
+        &:hover
+            &::after
+                @include stateLayer.hover
+        &.selected, &:active
+            background-color: transparent
+            &::after
+                @include stateLayer.active
+
+// keybindings dialog
+dialog#keybindings
+    max-width: 45%
+    max-height: 70%
+    background: var(--md-sys-color-surface)
+    #keybindlist
+        margin-top: 0
+        max-height: 300px
+
+    .keybindslot
+        cursor: default
+        width: 40%
+        padding-inline: 4px
+        margin-inline: 12px
+        flex-grow: 0
+        & > span.modifier, & > span.key
+            border-radius: 4px
+            background-color: var(--md-sys-color-surface-container-high)
+
+    .keybind_line
+        padding: 2px 6px
+        display: flex
+        flex-direction: row
+        & > div:first-child > span
+            font-size: var(--md-sys-typescale-body-large-font-size)
+            font-weight: var(--md-sys-typescale-body-large-font-weight)
+
+        & > div:first-child > .keybind_guide_line
+            display: none
+
+#overlay_message_box
+    background: none
+    &::after
+        content: ""
+        position: absolute
+        inset: 0
+        background: var(--md-sys-color-scrim)
+        opacity: 0.32
+        z-index: -1
+    & > div
+        background-color: var(--md-sys-color-surface-container)
+        border-radius: 24px
+        padding: 24px
+        width: auto
+        max-width: 400px
+    h3
+        i
+            font-size: var(--md-sys-typescale-headline-medium-font-size)
+            margin: 0
+            max-width: none
+
+// Settings dialog
+dialog#settings, dialog#keybindings
+    .dialog_wrapper
+        min-height: 0
+
+dialog#settings
+    max-width: 100%
+    max-height: 80%
+
+.settings_list
+    li
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        margin-block: 6px
+        height: auto
+
+        .setting_element
+            order: 2
+            &:empty
+                display: none
+
+        .setting_label
+            max-width: 50%
+
+        .setting_name
+            color: var(--md-sys-color-primary)
+            font-size: var(--md-sys-typescale-title-medium-font-size)
+            font-weight: var(--md-sys-typescale-title-medium-font-weight)
+        .setting_description
+            color: var(--md-sys-color-on-surface)
+            font-size: var(--md-sys-typescale-body-medium-font-size)
+            font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+        div.bar_select, input[type=text], input[type=password]
+            width: auto !important
+            min-width: 30%
+
+// Theme dialog
+dialog#theme
+    max-height: 800px
+    .dialog_wrapper
+        min-height: 0
+    #theme_editor
+        .theme_preview.custom_thumbnail_preview
+            position: absolute
+            right: 36px
+            z-index: 1
+            border-radius: 8px
+
+    #css_editor, #thumbnail_editor
+        height: 50vh
+        .prism-editor-wrapper
+            border: none
+            border-radius: 8px
+            :not(pre) > code[class*="language-"], pre[class*="language-"]
+                background: transparent
+            pre
+                caret-color: var(--md-sys-color-primary)
+            .prism-editor__line-numbers
+                background: var(--md-sys-color-surface-container-high) !Important
+                margin-left: -4px
+                margin-block: -1px !important
+                margin-block: 0
+                border-radius: 8px 0 0 8px !important
+                div.token
+                    color: var(--md-sys-color-outline)
+                    padding-right: 6px
+
+    #css_editor
+        &:has(> p:first-of-type)
+            background: var(--md-sys-color-surface)
+            border-radius: 12px
+        & > p:first-of-type
+            color: var(--md-sys-color-error)
+            font-size: var(--md-sys-typescale-headline-large-font-size)
+
+            text-align: center
+            margin: auto
+            max-width: 60%
+
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            &::before
+                content: "error"
+                font-weight: normal
+                font-style: normal
+                font-size: 96px
+                font-family: "Material Icons"
+
+    #thumbnail_editor
+        margin-right: 224px
+
+#color_wrapper
+    grid-template-columns: repeat(auto-fill, minmax(250px,1fr))
+    grid-auto-rows: auto
+    gap: 8px 16px
+    display: grid
+    .color_field
+        flex-direction: row-reverse
+        align-items: center
+        display: flex
+        position: relative
+        background-color: var(--md-sys-color-surface-variant)
+        border-radius: 12px
+        padding: 12px
+
+        .color_input
+            width: 46px
+            height: 46px
+            border-radius: 50%
+            flex-shrink: 0
+            flex-grow: 0
+            border: 1px solid var(--md-sys-color-on-secondary-container)
+            margin: 0
+
+        .desc
+            flex-grow: 1
+            color: var(--md-sys-color-on-surface-variant)
+            font-size: var(--md-sys-typescale-body-large-font-size)
+            font-weight: var(--md-sys-typescale-body-large-font-weight)
+        p
+            display: none
+
+#theme_list
+    gap: 12px
+    .theme
+        border-radius: 12px
+        background-color: var(--md-sys-color-surface-container-high)
+        border: none
+        padding: 12px
+        cursor: default
+        position: relative
+
+        display: flex
+        flex-direction: column
+        &.selected
+            outline: 2px solid var(--md-sys-color-primary)
+            outline-offset: -2px
+        &::after
+            @include stateLayer.base
+        &:hover
+            background-color: var(--md-sys-color-surface-container-high)
+            border: none
+            &::after
+                @include stateLayer.hover
+
+        &:active
+            &::after
+                @include stateLayer.active
+
+// About dialog
+dialog#about
+    background: var(--md-sys-color-background)
+    h4
+        padding-top: 0
+        margin-top: 12px
+        color: var(--md-sys-color-primary)
+        font-size: var(--md-sys-typescale-title-medium-font-size)
+        font-weight: var(--md-sys-typescale-title-medium-font-weight)
+    .dialog_content > div > *
+        &:nth-child(2)
+            margin-top: -8px
+
+    .special_thanks_mentions li, p, .multi_column_list a
+        font-size: var(--md-sys-typescale-body-medium-font-size)
+        font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+    p[style="margin-bottom: 16px;"]
+        margin-bottom: 4px !important
+        color: var(--md-sys-color-tertiary)
+
+    div.socials
+        flex-wrap: wrap
+        justify-content: center
+        gap: 6px
+        padding: 12px 0
+        a
+            background: var(--md-sys-color-secondary-container)
+            border-radius: 24px
+            display: flex
+            align-items: center
+            flex-grow: 1
+            position: relative
+            justify-content: center
+
+            height: 40px
+            padding: 0px 24px
+
+            gap: 12px
+
+            &::before
+                @include stateLayer.base
+
+            &::after
+                @include stateLayer.ripple_base
+
+            &:hover
+                background: var(--md-sys-color-secondary-container)
+                & > i, & > label
+                    color: var(--md-sys-color-on-secondary-container) !important
+
+                &::before
+                    @include stateLayer.hover
+
+            &:active
+                &::after
+                    @include stateLayer.ripple_active
+
+            i
+                color: var(--md-sys-color-on-secondary-container) !important
+                font-size: 24px
+
+            label
+                font-weight: var(--md-sys-typescale-label-large-font-weight)
+                font-size: var(--md-sys-typescale-label-large-font-size)
+                color: var(--md-sys-color-on-secondary-container)
+
+// Mobile Menu Bar
+#mobile_menu_bar
+    border-radius: 9px
+    background-color: var(--md-sys-color-surface-container-high)
+    padding: 6px
+    box-shadow: none
+    & > label
+        height: auto
+        font-size: var(--md-sys-typescale-title-medium-font-size)
+        font-weight: var(--md-sys-typescale-title-medium-font-weight)
+        color: var(--md-sys-color-secondary)
+    & > .tool
+        color: var(--md-sys-color-on-surface)
+
+// Amend Edit Menu
+#amend_edit_menu
+    width: auto
+    height: auto
+    padding: 8px
+    padding-right: 32px
+    border-radius: 12px
+    left: 50%
+    right: auto
+    bottom: 12px
+
+    transform: translateX(-50%)
+    background: var(--md-sys-color-surface-container)
+    & > div.amend_edit_line
+        background: none
+        padding: 0
+        margin-bottom: 4px
+
+    .amend_edit_close_button
+        height: 100%
+        background-color: var(--md-sys-color-surface-container-high)
+        color: var(--md-sys-color-error)
+        border-radius: 0 12px 12px 0
+
+        & > i
+            position: absolute
+            top: 50%
+            transform: translateY(-50%)
+
+        &::before
+            @include stateLayer.base
+
+        &:hover
+            &::before
+                @include stateLayer.hover
+
+    div.nslide_tool > .nslide
+        background-color: var(--md-sys-color-surface-container-high)
+        border-radius: 8px
+
+// tab overview (giving a shape to the shapeless dialog)
+#tab_overview
+    // padding: 16px
+    // border-radius: 24px
+    width: fit-content
+    height: fit-content
+
+    // background-color: var(--md-sys-color-surface-container)
+
+    #tab_overview_search
+        position: absolute
+        top: -64px
+        background-color: var(--md-sys-color-surface-container)
+        padding: 12px
+        border-radius: 12px
+        .search_bar
+            top: 0
+            box-shadow: none
+            & > input
+                border-radius: 6px
+    #tab_overview_grid
+        gap: 16px
+        max-width: 50vw
+        & > li
+            background-color: var(--md-sys-color-surface-container)
+            border-radius: 12px
+            position: relative
+            box-shadow: none
+            padding: 12px
+            padding-bottom: 6px
+            height: fit-content
+            width: fit-content
+            max-width: 300px
+            &.pixel_art
+                min-width: 300px
+                min-height: 160px
+                & > img
+                    width: 40%
+            & > img
+                border-radius: 12px
+                margin-bottom: 6px
+
+            &::after
+                @include stateLayer.base
+
+            &:hover
+                &::after
+                    @include stateLayer.hover
+
+// Edit Toolbar dialogue
+#toolbar_edit
+    #bar_item_list
+        background-color: var(--md-sys-color-surface)
+        color: var(--md-sys-color-on-surface-variant)
+        border-radius: 12px
+        li
+            position: relative
+            background-color: var(--md-sys-color-surface)
+            color: var(--md-sys-color-on-surface)
+            font-size: var(--md-sys-typescale-body-large-font-size)
+            font-weight: var(--md-sys-typescale-body-large-font-weight)
+            height: 40px
+            padding: 8px 16px
+            align-items: center
+            gap: 12px
+
+            &::after
+                @include stateLayer.base
+
+            &:hover
+                &::after
+                    @include stateLayer.hover
+
+            &:active
+                &::after
+                    @include stateLayer.active
+
+#bar_items_current
+    background-color: var(--md-sys-color-surface-container-high)
+    border-radius: 12px
+    .tool
+        border-radius: 0

@@ -1,0 +1,497 @@
+@use "stateLayer"
+@use "contextMenu"
+
+// Outlined button (default)
+button
+    width: auto
+    height: 40px
+    padding: 0px 24px
+    border: 1px solid var(--md-sys-color-outline)
+    border-radius: 100px
+
+    position: relative
+
+    // font-size: var(--md-sys-typescale-label-large-font-size)
+    font-weight: var(--md-sys-typescale-label-large-font-weight)
+    color: var(--md-sys-color-primary) !important
+    background-color: transparent
+
+    &::before
+        @include stateLayer.ripple_base
+
+    &::after
+        @include stateLayer.base
+
+    // &:disabled
+    //     cursor: default
+    //     background-color: transparent
+    //     color: var(--md-sys-color-on-surface) !important
+    //     opacity: 0.38
+    //     border: 1px solid var(--md-sys-color-on-surface)
+
+    &:hover
+        background-color: transparent
+        border: 1px solid var(--md-sys-color-outline)
+        color: var(--md-sys-color-primary) !important
+        &::after
+            @include stateLayer.hover
+
+    &:active
+        background-color: transparent
+        border: 1px solid var(--md-sys-color-outline)
+        &::before
+            @include stateLayer.ripple_active
+        &::after
+            @include stateLayer.active
+
+    // important
+    &:focus
+        text-decoration: none
+
+#plugin_browser_page .button_bar button
+    border-radius: 12px
+    &:hover
+        background-color: transparent
+
+// Filled button (dialog submit)
+.button_bar
+    & > button.confirm_btn
+        border: 1px solid transparent
+
+        background-color: var(--md-sys-color-primary) !important
+        color: var(--md-sys-color-on-primary) !important
+
+        // &:disabled
+        //     cursor: default
+        //     background-color: var(--md-sys-color-on-surface)
+        //     opacity: 0.12
+        //     color: #57575b !important
+        //     border: 1px solid #2c2c2f
+
+        &:hover
+            &::after
+                @include stateLayer.hover
+
+        &:focus
+            border: none
+            &::after
+                @include stateLayer.active
+
+        &:active
+            &::after
+                @include stateLayer.active
+
+    // tonal button (secondary action)
+    & > button:nth-child(2)
+        border: 1px solid transparent
+
+        background-color: var(--md-sys-color-secondary-container) !important
+        color: var(--md-sys-color-on-secondary-container) !important
+
+        &:hover
+            &::after
+                @include stateLayer.hover
+
+        &:focus
+            border: none
+            &::after
+                @include stateLayer.active
+
+        &:active
+            &::after
+                @include stateLayer.active
+
+#quick_message_box, .uv_message_box
+    max-width: none
+    height: auto
+    padding: 14px 16px
+    top: auto
+    bottom: 40px
+    padding-right: clamp(0px, 5vw, 70px)
+    background-color: var(--md-sys-color-inverse-surface)
+    color: var(--md-sys-color-inverse-on-surface)
+    box-shadow: 0px 1px 2px rgba(0 0 0 / 30%), 0px 2px 6px 2px rgba(0 0 0 / 15%)
+    border-radius: 4px
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+.uv_message_box
+    width: fit-content
+    top: 40px
+    bottom: auto
+
+// bb-select
+bb-select, select
+    height: 32px
+    background-color: var(--md-sys-color-surface-container-highest)
+    padding: 10px
+    border-radius: 4px 4px 0 0
+    min-width: 112px
+    max-width: 280px
+    line-height: 14px
+
+    display: flex
+    align-content: center
+
+    border-bottom: 1px solid var(--md-sys-color-primary)
+
+    font-size: var(--md-sys-typescale-body-large-font-size)
+    font-weight: var(--md-sys-typescale-body-large-font-weight)
+
+    &::before
+        content: "arrow_drop_down"
+        font-family: "Material Icons"
+        font-size: 24px
+        line-height: 24px
+        top: 4px
+        right: 16px
+
+    &::after
+        @include stateLayer.base
+
+    &:hover::after
+        @include stateLayer.hover
+
+    &:active::after
+        @include stateLayer.active
+
+// Inputs
+div.nslide,
+.settings_list input[type=text],
+.settings_list input[type=password],
+input[type=text],
+input[type=password],
+.dark_bordered,
+.prism-editor-wrapper,
+.keybind_line > div.keybindslot
+    caret-color: var(--md-sys-color-primary)
+    background-color: transparent
+    border-radius: 4px
+    padding: 4px 6px
+    line-height: 1.5
+
+    outline: 1px solid var(--md-sys-color-outline)
+    outline-offset: -1px
+
+    font-size: var(--md-sys-typescale-body-large-font-size)
+    font-weight: var(--md-sys-typescale-body-large-font-weight)
+
+    transition: 150ms outline-color cubic-bezier(0.2, 0, 0, 1), 150ms border-color cubic-bezier(0.2, 0, 0, 1)
+
+    &:focus
+        outline-width: 3px
+        outline-offset: -3px
+        outline-color: var(--md-sys-color-primary)
+
+*.dark_bordered
+    background-color: transparent
+    // outline: none
+
+.search_bar
+    width: auto
+    input
+        padding-left: calc(16px + 16px)
+
+    i
+        float: left
+        left: 6px
+        right: auto
+        margin-top: 4px
+
+// Tools
+*.tool
+    color: var(--md-sys-color-on-surface)
+    border-radius: 4px
+    // transition: 200ms cubic-bezier(0.2, 0.0, 0, 1.0) background-color, 200ms cubic-bezier(0.2, 0.0, 0, 1.0) color
+
+    &.wide
+        padding: 0
+    // Special state layer DON'T CHANGE IT BREAKS TOOLTIPS
+    &::after
+        content: ""
+        width: 100%
+        height: 100%
+        transform: translateY(-100%)
+        display: block
+        opacity: 0
+        border-radius: inherit
+        pointer-events: none
+
+    &.enabled,
+    &.selected
+        border-bottom: none
+        background-color: var(--md-sys-color-primary)
+        i
+            color: var(--md-sys-color-on-primary)
+
+    &:hover
+        color: var(--md-sys-color-on-surface)
+        &::after
+            @include stateLayer.hover
+
+    &:active
+        &::after
+            @include stateLayer.active(var(--md-sys-color-primary), 0.2)
+        .icon
+            padding-top: 0
+        & > i
+            transform: scale(80%)
+
+    i
+        transition: 100ms cubic-bezier(0.3, 0, 1, 1) transform
+
+    & > bb-select
+        height: var(--toolbar-height)
+        padding-block: 8px
+        &::before
+            font-size: 16px
+
+    &.side_menu_tool i.icon.action_more_options
+        color: var(--md-sys-color-on-surface)
+
+    &.enabled.side_menu_tool i.icon.action_more_options
+        color: var(--md-sys-color-on-primary)
+
+    &.bar_select
+        &.icon_mode
+            padding-inline: 6px
+            margin-inline: 2px
+            border-radius: 4px
+            background-color: var(--md-sys-color-surface-container)
+        .select_option
+            position: relative
+            &::after
+                @include stateLayer.base
+            &:hover
+                &::after
+                    @include stateLayer.hover
+            &:active
+                &::after
+                    @include stateLayer.active
+                i
+                    transform: scale(75%)
+
+    &.nslide_tool
+        &.is_colored
+            .nslide
+                &::before
+                    // left: 0
+                    border-right-width: 4px
+
+// tooltip
+.tooltip
+    background-color: var(--md-sys-color-surface-container)
+    color: var(--md-sys-color-on-surface-variant)
+    border-radius: 12px
+    font-size: var(--md-sys-typescale-title-small-font-size)
+    font-weight: var(--md-sys-typescale-title-small-font-weight)
+    line-height: 20px
+    padding-inline: 16px
+    padding-block: 12px 8px
+    width: fit-content
+    max-width: 200px
+    height: auto
+    text-align: left
+    visibility: visible
+
+    margin-top: 34px !important
+    opacity: 0
+    transition: 50ms opacity linear
+    transition-delay: 30ms
+    pointer-events: none
+
+    &[style*="margin-top: -"]
+        margin-top: -6px !important
+        transform: translateY(-100%)
+
+.tool:hover > .tooltip
+    opacity: 1
+
+.tooltip_description
+    position: relative
+    background-color: transparent
+    border: none
+    margin-top: 4px !important
+    color: var(--md-sys-color-on-surface-variant)
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+    word-wrap: normal
+    white-space: normal
+    opacity: 1
+
+.tool:hover > .tooltip .tooltip_description
+    transition: none
+
+#cursor_tooltip
+    background-color: var(--md-sys-color-inverse-surface)
+    color: var(--md-sys-color-inverse-on-surface)
+    border-radius: 4px
+    font-size: var(--md-sys-typescale-body-small-font-size)
+    font-weight: var(--md-sys-typescale-body-small-font-weight)
+    height: 24px
+    padding: 0 8px
+    line-height: 24px
+    box-shadow: none
+    pointer-events: none
+
+// Color Picker
+.sp-color
+    right: 32px
+    border-radius: 4px
+    overflow: hidden
+
+.sp-hue
+    width: 24px
+    border-radius: 100px
+    overflow: hidden
+    border: 1px solid var(--md-sys-color-on-surface-variant)
+
+.sp-dragger
+    border-radius: 6px
+    height: 12px
+    width: 12px
+    border: none
+    background: var(--md-sys-color-primary)
+    margin-top: 6px
+    margin-left: 6px
+
+.sp-replacer
+    margin: 0
+    cursor: default
+    padding: 0
+    width: 18px
+    height: 15px
+    background: var(--color-ui)
+    color: var(--color-text)
+
+.sp-slider
+    border: none
+    border-radius: 100px
+    width: 24px
+    height: 4px
+    left: 0
+    right: 0
+    margin-left: -1px
+    margin-top: 2px
+    background: var(--md-sys-color-inverse-surface)
+    mix-blend-mode: difference
+
+.sp-preview
+    height: 11px
+    width: 14px
+    margin: 2px
+
+.sp-dd
+    display: none
+
+// radio tabs
+.tabs_small
+    font-size: var(--md-sys-typescale-title-small-font-size)
+    font-weight: var(--md-sys-typescale-title-small-font-weight)
+    background-color: var(--md-sys-color-surface-container-high)
+    height: 28px
+    input[type="radio"]
+        &+label
+            height: auto
+            line-height: 22px
+            position: relative
+            border-right: 1px solid var(--md-sys-color-outline-variant)
+            &::after
+                @include stateLayer.base
+
+            &:hover
+                &::after
+                    @include stateLayer.hover
+
+            &:active
+                &::after
+                    @include stateLayer.active
+        &:checked+label
+            border: none
+            background-color: var(--md-sys-color-secondary-container)
+            color: var(--md-sys-color-on-secondary-container)
+
+// In list button
+.in_list_button
+    position: relative
+    width: 36px
+    height: 30px
+    margin: 0
+    & > i
+        margin: 4px auto
+        display: block
+
+    &::after
+        @include stateLayer.base
+    &:hover
+        &::after
+            @include stateLayer.hover
+
+    &:active
+        &::after
+            @include stateLayer.active
+        & > i
+            transform: scale(80%)
+
+    i
+        transition: 100ms cubic-bezier(0.3, 0, 1, 1) transform
+
+// prism, code editing
+code, pre
+    &[class*="language-"]
+        color: var(--md-sys-color-on-surface)
+        text-shadow: 0 1px rgba(0, 0, 0, 0.3)
+        font-family: var(--font-code)
+        font-size: var(--md-sys-typescale-body-medium-font-size)
+        line-height: 1.5
+
+.prism-editor-wrapper
+    border: none
+    border-radius: inherit
+
+.prism-editor__autocomplete
+    background-color: var(--md-sys-color-surface-container)
+    border: 1px solid var(--md-sys-color-outline-variant)
+    border-radius: 8px
+    li
+        font-family: var(--font-code)
+        font-size: var(--md-sys-typescale-body-medium-font-size)
+        font-weight: var(--md-sys-typescale-body-medium-font-weight)
+        position: relative
+        &.selected
+            background-color: var(--md-sys-color-secondary-container)
+            color: var(--md-sys-color-on-secondary-container)
+        &::after
+            @include stateLayer.base
+        &:hover
+            &::after
+                @include stateLayer.hover
+
+        &:active
+            &::after
+                @include stateLayer.active
+
+.molang_input
+    border-radius: 4px
+    outline: 3px solid transparent
+    outline-offset: -3px
+    transition: 200ms outline
+    &:has(> .prism-editor-wrapper > pre:first-of-type:focus)
+        outline: 3px solid var(--md-sys-color-primary)
+    pre
+        min-height: 0
+        caret-color: var(--md-sys-color-primary)
+        background: none
+
+// Segmented button bar (idk)
+
+.form_inline_select
+    gap: 0
+    border-radius: 8px
+    overflow: hidden
+    & > li
+        background-color: var(--md-sys-color-secondary-container)
+        color: var(--md-sys-color-on-secondary-container)
+        font-size: var(--md-sys-typescale-label-large-font-size)
+        font-weight: var(--md-sys-typescale-label-large-font-weight)
+        padding: 4px

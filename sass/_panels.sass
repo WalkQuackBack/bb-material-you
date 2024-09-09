@@ -1,0 +1,564 @@
+@use "stateLayer"
+
+.sidebar
+	background-color: var(--md-sys-color-surface-container-low)
+
+.flex_fill_line
+	border: none
+	margin: 0
+
+.toolbar
+	align-items: center
+	bb-select, input[type=text], div.nslide
+		font-size: var(--md-sys-typescale-body-medium-font-size)
+		margin-block: 2px
+		height: auto
+		padding: 5px 8px
+
+	& > .content
+		& > .tool.wide
+			margin-inline: 2px
+
+	.toolbar_separator.border
+		background-color: var(--md-sys-color-outline-variant)
+
+	div.nslide
+		margin-block: 1px
+		line-height: 20px
+		height: 27px
+
+	.tool
+		border-radius: 0
+		&.bar_select
+			height: auto
+			bb-select
+				line-height: 16px
+				&::before
+					font-size: 16px
+					top: 0
+					right: 6px
+
+	& > .tool
+		&.toolbar_menu
+			color: var(--md-sys-color-outline)
+			// width: 36px
+			& > i
+				margin-left: -4px
+			// 	margin-left: auto
+			// 	width: 24px
+
+.panel
+	background-color: var(--md-sys-color-surface-container-low)
+	outline: 1px solid var(--md-sys-color-outline-variant)
+	&.floating
+		border-radius: 12px
+		border: none
+		box-shadow: none
+		outline: 1px solid var(--md-sys-color-outline)
+
+	.toolbar
+		background-color: var(--md-sys-color-surface-container)
+
+	& h3.panel_handle
+		background-color: var(--md-sys-color-surface-container-high)
+		width: auto
+		height: 36px
+		padding-inline: 4px
+		& > label
+			font-size: var(--md-sys-typescale-title-medium-font-size)
+			font-weight: var(--md-sys-typescale-title-medium-font-weight)
+			text-transform: capitalize
+			margin-left: 2px
+
+	p
+		margin-left: 0
+		&.panel_toolbar_label
+			font-size: var(--md-sys-typescale-title-medium-font-size)
+			font-weight: var(--md-sys-typescale-title-medium-font-weight)
+			margin-left: 10px
+			margin-bottom: 0
+			color: var(--md-sys-color-on-surface)
+
+	& > .toolbar
+		padding: 0 8px
+
+	.list
+		background-color: var(--md-sys-color-surface-container-low)
+
+.panel_sidebar_resize_handle
+	&:hover, &.dragging
+		background-color: var(--md-sys-color-inverse-surface)
+		opacity: 1
+		border-radius: 2px
+
+.panel_resize_side
+	border-radius: 2px
+	&:active
+		background-color: var(--md-sys-color-inverse-surface)
+
+.resizer
+	&:hover, &.dragging
+		background-color: var(--md-sys-color-inverse-surface)
+		opacity: 1
+
+.sidebar.drop_target::after
+	background-color: var(--md-sys-color-primary)
+	animation: fadeIn 400ms cubic-bezier(0.05, 0.7, 0.1, 1.0)
+
+// animations + textures
+#texture_list, #layers_list
+	overflow: auto
+
+	& > li
+		height: 48px
+		&::after
+			@include stateLayer.base
+
+		&:hover
+			&::after
+				@include stateLayer.hover
+
+		&:active
+			&::after
+				@include stateLayer.active
+
+		&.selected
+			background-color: var(--md-sys-color-primary)
+			color: var(--md-sys-color-on-primary)
+			.texture_res
+				color: var(--md-sys-color-outline-variant)
+			&:hover
+				.texture_name
+					color: var(--md-sys-color-on-primary)
+
+		& > i
+			transform: translate(0px, -5px)
+			padding: 5px
+			width: auto
+			height: fit-content
+			max-width: fit-content
+		& > .in_list_button
+			padding: 5px
+			width: auto
+			height: 29px
+			max-width: fit-content
+
+.texture_description_wrapper
+	height: fit-content
+	margin-block: auto
+	.texture_name
+		font-size: var(--md-sys-typescale-body-medium-font-size)
+		font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+	.texture_res
+		font-size: var(--md-sys-typescale-body-small-font-size)
+		font-weight: var(--md-sys-typescale-body-small-font-weight)
+		color: var(--md-sys-color-outline)
+
+.texture_drag_helper
+	background-color: var(--color-checkerboard)
+	--color-checker_offset: rgba(0, 0, 0, 0.16)
+	background-image: linear-gradient(45deg, var(--color-checkerboard) 25%, transparent 25%), linear-gradient(-45deg, var(--color-checkerboard) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--color-checkerboard) 75%), linear-gradient(-45deg, var(--color-checker_offset) 75%, var(--color-checkerboard) 75%)
+	background-size: 10px 10px
+	background-position: 0 0, 0 15px, 15px -15px, -15px 0px
+	box-shadow: none
+	margin: -20px
+	border: 1px dashed var(--color-accent)
+
+// Color panel
+#panel_color
+	.sp-container.sp-flat
+		padding: 12px
+		background-color: var(--md-sys-color-surface-container)
+		border-radius: 12px
+
+	#color_panel_head
+		padding-block: 4px 10px
+		gap: 4px
+		height: auto
+		.chosen
+			width: 80px
+			height: auto
+			& > .switcher
+				top: 12px
+				background-color: var(--md-sys-color-secondary-container)
+				color: var(--md-sys-color-on-secondary-container)
+				& > .icon
+					margin: 1px 0
+			& > .main, & > .secondary
+				width: 32px
+				height: 32px
+				border: none
+				outline: 2px solid var(--md-sys-color-outline-variant)
+				border-radius: 50%
+				&.selected
+					outline-color: var(--md-sys-color-primary)
+
+			& > .secondary
+				left: 16px
+				top: 16px
+
+		.side
+			input
+				padding: 3px 4px
+				margin-top: 2px
+				margin-bottom: 4px
+				font-family: var(--font-code)
+				background: var(--md-sys-color-surface-container)
+	#color-wheel
+		margin-inline: auto
+
+.toolbar[toolbar_id="palette"]
+	margin-top: 6px
+
+// Color panel
+#color_panel_head .chosen > .main,
+#color_panel_head .chosen > .secondary
+	border-radius: 4px
+
+#color_history
+	& > li
+		border-radius: 4px
+		margin-inline: 2px
+		transition: 80ms cubic-bezier(0.3, 0, 1, 1) transform
+		&:hover
+			border: none
+			transform: scale(0.8)
+
+#palette_list
+	padding-inline: 0
+	min-height: 0
+	height: auto
+	max-height: 200px
+	.color
+		&:hover
+			position: relative
+			border: none
+			padding: 0
+			&::after
+				content: ""
+				position: absolute
+				inset: 0
+
+				border-radius: 6px
+				outline: 4px solid var(--md-sys-color-primary-light)
+				outline-offset: -2px
+
+		&.contrast
+			background-color: transparent
+			&::after
+				outline-color: var(--md-sys-color-primary-dark)
+
+		.color_inner
+			border-radius: 0
+
+		&.selected
+			padding: 0
+
+// animations panel
+#animations_list
+	.animation
+		height: 40px
+		display: flex
+		align-items: center
+		&::after
+			@include stateLayer.base
+
+		&.selected
+			background-color: var(--md-sys-color-primary)
+			color: var(--md-sys-color-on-primary)
+			& > .in_list_button
+				color: var(--md-sys-color-on-primary)
+
+// keyframe panel
+#keyframe_type_label
+	display: flex
+	padding: 0
+	height: 30px
+	align-items: center
+	// border-bottom: 1px solid var(--md-sys-color-outline-variant)
+	& > label
+		margin-inline: 8px
+		padding-top: 2px
+		line-height: 30px
+		font-size: var(--md-sys-typescale-title-medium-font-size)
+		font-weight: var(--md-sys-typescale-title-medium-font-weight)
+
+.keyframe_data_point_header
+	display: flex
+	padding: 0
+	height: 30px
+	align-items: center
+	border-bottom: 1px solid var(--md-sys-color-outline-variant)
+	background-color: var(--md-sys-color-surface-container)
+	& > label
+		margin-inline: 8px
+		padding-top: 2px
+		line-height: 30px
+		font-size: var(--md-sys-typescale-body-medium-font-size)
+		font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+#panel_keyframe
+	.bar.flex
+		margin-block: 2px
+		min-height: 0
+		margin-inline: 4px
+		gap: 4px
+
+		& > label
+			background-color: var(--md-sys-color-surface-container-high)
+			border-radius: 4px
+			padding: 2px 10px
+			font-family: "Archivo Black"
+			font-weight: normal !important
+			text-transform: lowercase
+			margin-top: -2px
+
+// variable placeholders panel
+#panel_variable_placeholders
+	& > .panel_vue_wrapper
+		& > p
+			padding: 6px 12px
+			margin-left: 0
+			background-color: var(--md-sys-color-surface-container)
+		& > .molang_input
+			margin: 8px
+			padding: 2px
+			border-radius: 12px
+			width: auto
+			height: auto
+			pre
+				cursor: text
+
+// timeline panel
+#timeline_body
+	background-color: var(--md-sys-color-surface)
+	i.icon-open-state
+		opacity: 1
+	.animator
+		.animator_head_bar
+			.keyframe_section
+				background: var(--md-sys-color-surface-container)
+			.keyframe
+				i
+					color: var(--md-sys-color-outline-variant)
+					font-size: 16px
+			.channel_head
+				& > span
+					color: var(--md-sys-color-secondary)
+					font-size: var(--md-sys-typescale-title-medium-font-size)
+					font-weight: var(--md-sys-typescale-title-medium-font-weight)
+		.animator_channel_bar
+			.keyframe_section
+				background: transparent
+			.channel_head
+				& > span
+					color: var(--md-sys-color-on-surface-variant)
+					font-size: var(--md-sys-typescale-body-medium-font-size)
+					font-weight: var(--md-sys-typescale-body-medium-font-weight)
+					margin-top: 2px
+					margin-left: 2px
+		&.selected
+			.channel_head
+				background-color: var(--md-sys-color-secondary-container)
+				color: var(--md-sys-color-on-secondary-container)
+				&:hover
+					color: var(--md-sys-color-on-secondary-container)
+				.text_button
+					color: var(--md-sys-color-on-secondary-container-variant)
+					&:hover
+						color: var(--md-sys-color-on-secondary-container-variant)
+
+	.channel_head
+		box-shadow: none
+		background-color: var(--md-sys-color-surface-container)
+		border-right: none
+		border-left: none
+		display: flex
+		align-items: center
+		&:hover
+			color: var(--md-sys-color-on-surface)
+		.text_button
+			position: relative
+			border-radius: 4px
+			width: 24px
+			height: 24px
+			&::after
+				@include stateLayer.base
+			&:hover
+				&::after
+					@include stateLayer.hover($opacity: 0.2)
+			&:active
+				&::after
+					@include stateLayer.active($opacity: 0.4)
+			&.rotation_global
+				width: 24px
+			& > i
+				font-size: 16px
+				&.material-icons
+					margin-top: 4px
+				&.fa, &.fas
+					font-size: 14px
+			&:hover
+				color: var(--md-sys-color-on-surface-variant)
+
+#timeline_endbracket
+	border-radius: 0 24px 24px 0
+	border-width: 4px
+	border-left-width: 0
+
+#timeline_playhead
+	// border: none
+	// padding: 9px
+	// padding-top: 16px
+	border-radius: 4px
+
+#timeline_timestamp,
+#timeline_framenumber
+	color: var(--md-sys-color-primary)
+	font-family: var(--font-main)
+	font-weight: var(--md-sys-typescale-label-large-font-weight)
+	font-size: var(--md-sys-typescale-label-large-font-size)
+
+#timeline_time
+	background-color: var(--md-sys-color-surface-container)
+	border: none
+
+#timeline_timestamp
+	flex-grow: 1
+	color: var(--md-sys-color-tertiary)
+
+#timeline_corner
+	padding-inline: 2px
+	& > span
+		display: none
+
+.timeline_timecode > span
+	margin-top: -2px
+	font-size: var(--md-sys-typescale-label-medium-font-size)
+	font-weight: var(--md-sys-typescale-label-medium-font-weight)
+
+// animation controller
+#animation_controllers_wrapper
+	.controller_state
+		border-radius: 12px
+		box-shadow: none
+		border: none
+		background-color: var(--md-sys-color-surface-container)
+		&.selected
+			outline: 1px solid var(--md-sys-color-primary)
+			outline-offset: -1px
+			.controller_state_title_bar
+				background-color: var(--md-sys-color-primary-container)
+				color: var(--md-sys-color-on-primary-container)
+
+		.controller_state_title_bar
+			height: auto
+			padding: 4px
+			border-radius: inherit
+
+// UV Panel
+#panel_uv
+	background-color: var(--md-sys-color-surface-container-lowest)
+
+#uv_viewport
+	&::-webkit-scrollbar-thumb
+		background-color: var(--md-sys-color-secondary-container)
+
+#uv_frame
+	border-color: var(--md-sys-color-surface)
+	box-shadow: 0 0 0 1800px var(--md-sys-color-surface-container-lowest)
+
+#uv_cube_face_bar, #face_properties_header_bar
+	border-radius: 4px
+	margin: 4px
+	background-color: var(--md-sys-color-surface-container)
+	& > li
+		line-height: 24px
+		font-size: var(--md-sys-typescale-title-small-font-size)
+		font-weight: var(--md-sys-typescale-title-small-font-weight)
+		border-bottom: none
+		border: 1px solid var(--md-sys-color-outline-variant)
+		margin: 0
+		&:first-child
+			border-radius: 8px 0 0 8px
+		&.selected
+			background-color: var(--md-sys-color-secondary-container)
+			color: var(--md-sys-color-on-secondary-container)
+			border: 1px solid var(--md-sys-color-outline)
+
+	& > .tool
+		height: 28px
+		padding: 1px
+		border-radius: 0 8px 8px 0
+
+#face_properties_header_bar
+	& > li:first-child
+		background-color: var(--md-sys-color-surface)
+
+.uv_face_properties_labels
+	height: 28px
+	background-color: var(--md-sys-color-surface-container)
+	border: 1px solid var(--md-sys-color-outline-variant)
+
+	margin-inline: 4px
+	padding-inline: 0
+	border-radius: 8px
+	color: var(--md-sys-color-on-surface-variant)
+
+	& > label
+		text-align: left
+		padding-inline: 8px
+		&:nth-child(2)
+
+			border-left: 1px solid var(--md-sys-color-outline-variant)
+			margin-left: 12px
+
+.uv_face_properties_line
+	label
+		margin-right: 12px
+
+.face_properties_texture
+	background-color: var(--md-sys-color-surface-container)
+
+.uv_face_properties_line:nth-child(even)
+	background-color: transparent
+
+.cube_uv_face
+	border-color: var(--md-sys-color-outline)
+	background-color: transparent
+	line-height: var(--height)
+	// font-size: clamp(calc(var(--width) * 0.3), 16px, 50px)
+
+	&::before
+		background: var(--md-sys-color-primary-container)
+		opacity: 0.14
+		// Boilerplate
+		content: ""
+		position: absolute
+		pointer-events: none
+		// 
+		inset: -4px
+
+	&:hover
+		background-color: transparent
+		filter: brightness(1.2)
+
+	&.selected:not(.unselected)
+		border-color: var(--md-sys-color-primary)
+		color: var(--md-sys-color-on-primary-container)
+		&::before
+			opacity: 0.3
+
+.uv_resize_corner
+	position: absolute
+	margin: -6px
+	height: 9px
+	width: 9px
+	background-color: var(--md-sys-color-inverse-surface)
+	border-color: var(--md-sys-color-surface)
+	border-radius: 3px
+	z-index: 3
+
+.main_corner::after
+	border-radius: 4px

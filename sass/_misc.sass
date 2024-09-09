@@ -1,0 +1,176 @@
+@use "./stateLayer"
+
+#color_wrapper
+    #color_field_accent,
+    #color_field_accent_text,
+    #color_field_ui,
+    #color_field_back,
+    #color_field_dark,
+    #color_field_frame,
+    #color_field_text,
+    #color_field_light,
+    #color_field_selected,
+    #color_field_button,
+    #color_field_bright_ui,
+    #color_field_wireframe,
+    #color_field_checkerboard
+    #color_field_border
+        cursor: not-allowed
+        opacity: 0.38
+        *
+            cursor: inherit
+
+#preview > .UVEditor
+    --color-background: var(--md-sys-color-surface)
+
+#status_bar
+    background-color: var(--md-sys-color-surface-container-high)
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    .status_bar_modifier_key
+        flex-grow: 0
+        margin-inline: 4px
+        span
+            color: var(--md-sys-color-on-surface)
+        kbd
+            margin-inline-end: 2px
+            border-radius: 4px
+            font-size: var(--md-sys-typescale-label-medium-font-size)
+            font-weight: var(--md-sys-typescale-label-medium-font-weight)
+
+            background: transparent
+            outline: 1px solid var(--md-sys-color-outline)
+
+            // background: var(--md-sys-color-secondary-container)
+            // color: var(--md-sys-color-on-secondary-container)
+            // outline: none
+
+#format_page_minecraft_entity_wizard #entity_wizard_start_button,
+#entity_wizard_next_button,
+#cem_template_load_button
+    color: var(--color-accent_text) !important
+
+h1
+    font-weight: var(--md-sys-typescale-headline-large-font-weight)
+    font-size: var(--md-sys-typescale-headline-large-font-size)
+
+h2
+    font-weight: var(--md-sys-typescale-headline-medium-font-weight)
+    font-size: var(--md-sys-typescale-headline-medium-font-size)
+
+h3, h4, h5, h6
+    font-weight: var(--md-sys-typescale-headline-small-font-weight)
+    font-size: var(--md-sys-typescale-headline-small-font-size)
+
+.title,
+#plugin_list > li .title
+    font-weight: var(--md-sys-typescale-title-large-font-weight)
+    font-size: var(--md-sys-typescale-title-large-font-size)
+
+.author,
+#plugin_list > li .author
+    font-weight: var(--md-sys-typescale-title-small-font-weight)
+    font-size: var(--md-sys-typescale-title-small-font-size)
+    margin-top: 0
+
+.description,
+#plugin_list > li .description,
+.markdown p
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+
+.checkerboard .preview_menu, .preview_menu
+    background-color: var(--md-sys-color-surface-container-highest)
+    top: 12px
+    right: 12px
+
+    padding: 6px
+    gap: 6px
+    border-radius: 100px
+
+    .tool[style$="display: none;"] + .tool:not([style$="display: none;"])
+        &::before
+            border-radius: 50% 0 0 50%
+
+    & > .tool
+        border-radius: 50%
+        position: relative
+        &::before
+            // background: blue
+            // Touch hit point
+            // Boilerplate
+            content: ""
+            position: absolute
+            pointer-events: all
+            // 
+
+            inset: -4px
+
+        &:last-child
+            &::before
+                border-radius: 0 50% 50% 0
+
+body.is_mobile .toolbar_wrapper.narrow.tools .toolbar
+    background-color: var(--md-sys-color-surface-container)
+
+.selection_rectangle
+    border: 1px solid var(--md-sys-color-primary)
+    background-color: transparent
+    &::after
+        content: ""
+        position: absolute
+        inset: 0
+        background: var(--md-sys-color-secondary)
+        opacity: 0.25
+
+::selection
+    // TODO: un hard code this
+    background: var(--md-sys-color-secondary)
+    color: var(--md-sys-color-on-secondary)
+
+/* some taken from Cherrybox: see credits */
+/*- PLUGINS -*/
+
+/* Entity/Block Wizard */
+#entity_wizard_wrapper #entity_wizard_page
+    padding: 5px 14px
+
+dialog #entity_wizard_sidebar .entity_wizard_documentation 
+    width: 96%
+    border: none
+    padding: 6px 0
+    text-align: center
+
+#entity_wizard_page ul.entity_wizard_mob_list > li
+    width: 120px
+    border: solid 2px transparent
+
+dialog#minecraft_entity_wizard p,
+dialog#minecraft_block_wizard p.description
+    color: var(--color-subtle_text)
+
+/* CEM Templates */
+#cem_template_selector #cem_template_sidebar li
+    padding: 6px 0 6px 14px
+
+/* Explorer */
+#dialog_wrapper #sidebar_explorer
+    border: solid 6px var(--color-back)
+
+/* Plugin button fix */
+#minecraft_entity_wizard button
+    width: 120px
+
+#minecraft_entity_wizard button,
+dialog #entity_wizard_start_page #entity_wizard_start_button,
+#format_page_minecraft_entity_wizard #entity_wizard_start_page #entity_wizard_start_button,
+dialog #cem_template_load_button 
+    background-color: var(--md-sys-color-primary) !important
+    color: var(--md-sys-color-on-primary) !important
+
+/* Plugin button fix (hover) */
+dialog #entity_wizard_start_page #entity_wizard_start_button:hover,
+#format_page_minecraft_entity_wizard #entity_wizard_start_page #entity_wizard_start_button:hover,
+dialog #cem_template_load_button:hover 
+    background-color: var(--md-sys-color-primary) !important
+    color: var(--md-sys-color-on-primary) !important
+    opacity: 0.9
