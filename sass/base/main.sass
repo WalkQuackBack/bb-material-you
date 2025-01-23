@@ -1,0 +1,96 @@
+@use "animations"
+
+@use "components/form"
+@use "components/contextMenu"
+@use "components/panels"
+
+@use "components/actionSelector"
+@use "components/header"
+@use "components/startScreen"
+@use "components/dialogs"
+@use "components/tabs"
+
+@use "viewport"
+@use "misc"
+
+@use "responsive"
+
+// Theme data is in another file now.
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap&text=xyz')
+
+body
+    --color-ui: var(--md-sys-color-surface) !important
+    --color-back: var(--md-sys-color-surface) !important
+    --color-dark: var(--md-sys-color-surface-container-low) !important
+    --color-frame: var(--md-sys-color-surface) !important
+    --color-text: var(--md-sys-color-on-surface) !important
+    --color-subtle_text: var(--md-sys-color-outline) !important
+    --color-light: var(--md-sys-color-on-surface) !important
+    --color-selected: var(--md-sys-color-accent) !important
+    --color-button: var(--md-sys-color-surface-container-high) !important
+    --color-accent: var(--md-sys-color-primary) !important
+    --color-accent_text: var(--md-sys-color-on-primary) !important
+    --color-bright_ui: var(--md-sys-color-surface-container-high) !important
+    --color-checkerboard: var(--md-sys-color-surface) !important
+    --color-close: var(--md-sys-color-error-container)
+    --color-wireframe: var(--md-sys-color-secondary) !important
+    --color-border: var(--md-sys-color-outline-variant) !important
+
+    --color-stream: #58328b !important
+    --color-on-stream: #eddcff !important
+
+    --font-main: var(--md-sys-typescale-body-medium-font-family-name)
+    --font-headline: var(--md-sys-typescale-headline-medium-font-family-name)
+
+    background-color: var(--md-sys-color-surface-container-lowest)
+    background-size: 0
+
+    font-family: var(--md-sys-typescale-body-medium-font-family-name)
+    font-style: var(--md-sys-typescale-body-medium-font-style)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    line-height: var(--md-sys-typescale-body-medium-line-height)
+    letter-spacing: var(--md-sys-typescale-body-medium-letter-spacing)
+
+#preview
+    --color-solid: var(--md-sys-color-inverse-surface)
+    --color-outline: var(--md-sys-color-tertiary)
+    --color-grid: var(--md-sys-color-surface-bright)
+    --color-ground: ie-hex-str(var(--md-sys-color-surface))
+    --color-brush-outline: var(--md-sys-color-inverse-surface)
+    // red A200
+    // green A200
+    // blue A200
+    --color-axis-x: #FF5252
+    --color-axis-y: #69F0AE
+    --color-axis-z: #448AFF
+
+*
+    -webkit-tap-highlight-color: rgba(0 0 0 / 0)
+
+/* Based off of Material Web */
+// scrollbars
+
+@media (pointer: fine)
+    body
+        --_scrollbar-width: 8px
+
+    *
+        // firefox
+        scrollbar-color: initial
+        scrollbar-width: initial
+
+    // Chromium + Safari
+    ::-webkit-scrollbar
+        background-color: transparent
+        width: var(--_scrollbar-width)
+
+    ::-webkit-scrollbar-track, .list::-webkit-scrollbar-track
+        background: transparent
+
+    ::-webkit-scrollbar-thumb
+        background-color: var(--md-sys-color-primary-container)
+        border-radius: calc(var(--_scrollbar-width) / 2)

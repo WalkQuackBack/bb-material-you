@@ -1,6 +1,11 @@
 {
-  "[sass]": {
-    "editor.defaultFormatter": "syler.sass-indented"
-  },
-  "files.autoSave": "off"
+	"editor.insertSpaces": false,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[sass]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"files.autoSave": "off"
 }

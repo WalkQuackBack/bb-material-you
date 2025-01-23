@@ -1,0 +1,70 @@
+@keyframes fadeIn
+    from
+        opacity: 0
+
+@keyframes fadeInTo1
+    to
+        opacity: 1
+
+@keyframes scaleYIn
+    from
+        transform: translateY(-37.5%) scaleY(0.25)
+
+@keyframes scaleIn
+    from
+        transform: scale(0.9)
+
+@keyframes fromNoCurve
+    from
+        border-radius: 0
+
+@keyframes fromOutlineVariant
+    from
+        outline-color: var(--md-sys-color-outline-variant)
+
+@keyframes rippleExpand
+    to
+        clip-path: circle(100%)
+
+@keyframes inward-grow
+    0%
+        border-width: 0
+    100%
+        border-width: 8px
+
+@keyframes text-blur-in
+    from
+        filter: blur(3px)
+        transform: scaleX(2)
+
+@keyframes text-blur-out
+    to
+        filter: blur(0px)
+        transform: scale(1)
+
+@keyframes inward-shrink
+    0%
+        border-width: 8px
+
+@keyframes inward-grow-outline
+    0%
+        outline-width: 0
+    100%
+        outline-width: 8px
+
+@keyframes inward-shrink-outline
+    0%
+        outline-width: 8px
+
+@keyframes start_screen-marquee
+    0%
+        transform: translateX(0%)
+    50%
+        transform: translateX(-50%)
+    100%
+        transform: translateX(0%)
+
+@keyframes page-in
+    0%
+        transform: translateX(-25%)
+        opacity: 0.75

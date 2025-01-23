@@ -1,0 +1,681 @@
+@use "stateLayer"
+
+#start_screen
+	flex-direction: column
+	justify-content: center
+	padding: 6vh 6vw
+	&:not([style="display: none;"])
+		display: flex !important
+
+	// &:has( > content > .start_screen_section:not(:is([section_id="start_files"], [section_id="splash_screen"] )))
+	i.start_screen_close_button
+		background-color: var(--md-sys-color-tertiary-container)
+		color: var(--md-sys-color-on-tertiary-container)
+		max-width: none
+		overflow: visible
+		inset: auto
+		left: 12px
+		top: 12px
+		padding: 12px
+		border-radius: 24px
+
+		box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px 0px, rgba(0, 0, 0, 0.15) 0px 4px 8px 3px
+
+		&::before
+			+stateLayer.base
+
+		&:hover
+			&::before
+				+stateLayer.hover
+
+		&:active
+			&::before
+				+stateLayer.active
+
+		&:not(:hover)
+			opacity: 1
+
+		&::before
+			content: ""
+			position: absolute
+			inset: -8px
+			pointer-events: all
+
+	& > content
+		box-shadow: none
+		border: 1px solid var(--md-sys-color-outline)
+		border-radius: 24px
+		max-width: none
+		width: 100%
+		height: 100%
+
+		display: flex
+		flex-direction: row
+		position: relative
+		// &:has(> section.start_screen_section#splash_screen:hover)
+		// 	& > section
+		// 		&.start_screen_section
+		// 			&#start_files
+		// 				display: none
+		// 	&::after
+		// 		content: ""
+		// 		width: 100%
+		// 		height: 600px
+		// 		background: linear-gradient(90deg, var(--md-sys-color-surface-container-high), var(--md-sys-color-surface-container))
+
+		& > section
+			// width: auto
+			&.vertical
+				.start_screen_right
+					box-shadow: none
+
+			&.start_screen_section
+				background: var(--md-sys-color-surface-container-high) !important
+				&#splash_screen
+					width: auto
+					max-width: 40%
+					flex-grow: 1
+					min-height: 30vh
+					.splash_art_slideshow_points
+						cursor: default
+
+						top: 0
+						bottom: 0
+						padding-block: 6px
+						left: auto
+						height: auto
+						overflow: hidden
+						right: 0
+						flex-direction: column
+						background: linear-gradient(90deg, transparent, var(--md-sys-color-surface))
+						& > li
+							width: 48px
+							height: auto
+							flex-grow: 1
+							&::after
+								// transition: 75ms background linear, 150ms border-radius cubic-bezier(0.2, 0.0, 0, 1.0), 150ms transform cubic-bezier(0.2, 0.0, 0, 1.0), 150ms filter linear
+								transition: 150ms transform cubic-bezier(0.2, 0.0, 0, 1.0)
+								width: calc(8px + 32px)
+								height: 100%
+								border-radius: 0
+								margin: 0
+								margin-left: auto
+								margin-right: -32px
+								background-color: var(--md-sys-color-primary-container)
+
+							&:first-child
+								&::after
+									border-radius: 8px 0 0 0
+							&:last-child
+								&::after
+									border-radius: 0 0 0 8px
+							&:hover
+								&::after
+									filter: brightness(110%)
+									transform: translateX(-32px)
+									border-radius: 8px 0 0 8px
+							&.selected
+								&::after
+									opacity: 1
+									background-color: var(--md-sys-color-primary)
+
+					.start_screen_graphic_description
+						width: 100%
+						height: 72px
+						padding: 0
+						bottom: 0
+						background: linear-gradient(180deg, transparent, var(--md-sys-color-surface))
+						& > p
+							font-size: var(--md-sys-typescale-label-large-font-size)
+							font-weight: var(--md-sys-typescale-label-large-font-weight)
+							line-height: 26px
+							text-align: center
+							height: 24px
+							white-space: nowrap
+							text-overflow: ellipsis
+							position: absolute
+							inset-inline: 0
+							bottom: 8px
+
+				&#start_files
+					flex-grow: 1
+
+				&:not(:is([section_id="start_files"], [section_id="splash_screen"]))
+					position: fixed
+					z-index: 1
+
+					inset: 24px
+					right: auto
+					top: auto
+
+					margin-inline: auto
+					width: fit-content
+					border-radius: 12px
+					padding: 6px 4px
+					padding-right: 56px
+					max-width: 50vw
+					// min-height: 100px
+					// 😮‍💨
+					background-color: var(--md-sys-color-secondary-container) !important
+					color: var(--md-sys-color-on-secondary-container) !important
+					border: 1px solid var(--md-sys-color-outline-variant)
+
+					box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px 0px, rgba(0, 0, 0, 0.15) 0px 4px 8px 3px
+					div.graphic.graphic_icon
+						margin-right: 8px
+						width: 32px
+						i
+							font-size: 20px
+
+							// HACK
+							margin-top: 5px
+							margin-bottom: -1px
+
+							line-height: 1
+							margin-inline: 0
+							&.material-icons
+								margin-left: 12px
+								width: auto
+
+					i.start_screen_close_button
+						background-color: var(--md-sys-color-primary)
+						color: var(--md-sys-color-on-primary)
+						left: auto
+						right: 7px
+						top: 7px
+						padding: 3px
+						border-radius: 6px
+						box-shadow: none
+
+					h1, h2, h3, h4, h5
+						height: auto
+						font-size: var(--md-sys-typescale-label-large-font-size)
+						font-weight: var(--md-sys-typescale-label-large-font-weight)
+						padding-bottom: 0
+						margin-top: 2px
+						line-height: 2
+
+					div.start_screen_left, div.start_screen_right
+						padding: 0
+
+					div.start_screen_right
+						button
+							margin-right: 6px
+						& > p
+							font-size: var(--md-sys-typescale-body-medium-font-size)
+							font-weight: var(--md-sys-typescale-body-medium-font-weight)
+				&[section_id="recover_backup"]// A woeful attempt at specifity winning.
+					padding-right: 12px
+					i.start_screen_close_button
+						display: none
+					div.graphic.graphic_icon
+						i
+							font-size: 20px
+							line-height: 3.5
+					div.start_screen_right
+						button
+							padding: 0
+							min-width: 0
+							width: calc(50% - 3px)
+							height: 40px
+							border-radius: 8px
+
+							&:hover
+								&::after
+									+stateLayer.hover($color: currentColor)
+
+							&:nth-child(5)
+								border: 1px solid transparent
+								background-color: var(--md-sys-color-primary) !important
+								color: var(--md-sys-color-on-primary) !important
+								&::before
+									content: "checkmark"
+
+									opacity: 1
+									transition: none
+									position: static
+									inset: auto
+									margin-top: 5px
+									clip-path: none
+									background: none
+
+									font-family: 'Material Icons'
+									font-weight: normal
+									font-style: normal
+									font-size: 24px
+									max-width: 24px
+									display: inline-block
+									line-height: 1
+									text-transform: none
+									letter-spacing: normal
+									word-wrap: normal
+									white-space: nowrap
+									direction: ltr
+									-webkit-font-smoothing: antialiased
+									text-rendering: optimizeLegibility
+									overflow: hidden
+									flex-shrink: 0
+
+							&:nth-child(6)
+								border: 1px solid transparent
+								background-color: var(--md-sys-color-error) !important
+								color: var(--md-sys-color-on-error) !important
+								margin-right: 0
+								&::before
+									content: "delete"
+
+									opacity: 1
+									transition: none
+									position: static
+									inset: auto
+									margin-top: 5px
+									clip-path: none
+									background: none
+
+									font-family: 'Material Icons'
+									font-weight: normal
+									font-style: normal
+									font-size: 24px
+									max-width: 24px
+									display: inline-block
+									line-height: 1
+									text-transform: none
+									letter-spacing: normal
+									word-wrap: normal
+									white-space: nowrap
+									direction: ltr
+									-webkit-font-smoothing: antialiased
+									text-rendering: optimizeLegibility
+									overflow: hidden
+									flex-shrink: 0
+
+							p
+								display: none
+
+				&[section_id="streamer_mode"]
+					// Oh dear. This might be dumb
+					background: var(--md-sys-color-primary-container) !important
+					color: var(--md-sys-color-on-primary-container) !important
+					border: none
+					left: auto
+					right: 12px
+					i.start_screen_close_button
+						background-color: var(--md-sys-color-primary)
+						color: var(--md-sys-color-on-primary)
+
+				&[section_id="quick_setup"]
+					& > div
+						margin: .25rem 0
+
+				&[section_id="new_version"]
+					inset: auto 0
+					top: 50%
+					transform: translateY(-50%)
+
+					padding: 0.25rem
+					max-width: 800px
+					max-height: 80vh
+					height: fit-content
+					background-color: var(--md-sys-color-surface-container-high) !important
+					color: var(--md-sys-color-on-surface) !important
+					&::after
+						content: ''
+						position: absolute
+						inset: -1px
+						z-index: -1
+						border-radius: inherit
+						box-shadow: 0 0 0 150vw var(--md-sys-color-scrim)
+						opacity: 0.5
+
+					.start_screen_features
+						flex-grow: 1
+						padding: 0
+						justify-content: stretch
+						overflow: scroll
+						scrollbar-width: none
+						& > li
+							min-width: 0
+							width: auto
+							width: 30%
+							& > img
+								width: 100%
+								border-radius: 6px
+					div.start_screen_right
+						padding: 0.25rem 1rem 0
+						text-align: start
+						padding-block-end: 0.5rem
+						& > h3:first-of-type
+							font-size: var(--md-sys-typescale-title-large-font-size)
+							font-weight: var(--md-sys-typescale-title-large-font-weight)
+							margin-block: 0
+						& > h1:first-of-type
+							color: var(--md-sys-color-secondary)
+							font-size: var(--md-sys-typescale-body-medium-font-size)
+							font-weight: var(--md-sys-typescale-body-medium-font-size)
+							margin-block: 0
+						& > p
+							font-size: var(--md-sys-typescale-body-medium-font-size)
+							font-weight: var(--md-sys-typescale-body-medium-font-size)
+							margin-block: 0
+
+#start_files
+	div.start_screen_left, div.start_screen_right
+		max-height: 100%
+
+	div.start_screen_left
+		width: min-content
+		max-width: 40%
+		padding: 0
+		flex-grow: 0
+		background-color: var(--md-sys-color-surface-container)
+		& > h2
+			margin-left: 0
+			padding: 20px
+			padding-bottom: 20px
+		& > ul
+			padding: 20px 12px
+			padding-top: 0
+			padding-bottom: 32px
+			// Fancy clippers!
+			border-radius: 12px
+			scrollbar-width: none
+			&::after
+				content: ""
+				height: 64px
+				position: absolute
+				pointer-events: none
+				background: linear-gradient(transparent, var(--md-sys-color-surface-container))
+				inset-inline: 0
+				bottom: 0
+			li.format_category
+				margin-top: 0
+				& > label
+					margin-left: 8px
+					width: 100%
+					color: var(--md-sys-color-outline)
+					font-size: var(--md-sys-typescale-label-large-font-size)
+					font-weight: var(--md-sys-typescale-label-large-font-weight)
+			li.format_entry
+				position: relative
+				display: flex
+				align-items: center
+
+				max-width: 100%
+				padding: 6px 14px
+				gap: 6px
+				height: 36px
+
+				font-size: var(--md-sys-typescale-body-medium-font-size)
+				font-weight: var(--md-sys-typescale-body-medium-font-weight)
+				border-radius: 18px
+				&::before
+					+stateLayer.base
+
+				&:hover
+					&::before
+						+stateLayer.hover
+				&:active
+					&::before
+						+stateLayer.active
+
+				& > label
+					flex-grow: 1
+					line-height: 1
+					overflow: hidden
+					text-overflow: ellipsis
+					white-space: nowrap
+
+				& > span.icon_wrapper
+					width: 20px
+					height: 20px
+					margin-top: -1px
+					img
+						width: 20px
+						height: 20px
+					i
+						margin: 0
+						font-size: 20px
+
+				&.selected
+					background-color: var(--md-sys-color-secondary-container)
+					color: var(--md-sys-color-on-secondary-container)
+					// & > label
+					// 	max-width: calc( 100% - 56px )
+					&::after
+						content: none
+						// position: absolute
+						// right: 6px
+
+	div.start_screen_right
+		display: flex
+		flex-direction: column
+		flex-grow: 1
+		padding: 20px
+		width: auto
+		background-color: var(--md-sys-color-surface-container-low)
+		& > h2
+			margin-left: 0
+			padding: 0
+			padding-bottom: 20px
+			order: 0
+			margin-bottom: 0 !important
+
+		& > div:has(.format_target) > content
+			order: 1
+
+		& .format_description
+			order: 3
+			font-size: var(--md-sys-typescale-title-medium-font-size)
+			font-weight: var(--md-sys-typescale-title-medium-font-weight)
+			margin-block: 0.5em 0.25em
+			padding-block: 0 0.25em
+			border-bottom: 1px solid var(--md-sys-color-outline-variant)
+
+		.button_bar
+			order: 1500
+			padding-right: 0
+			button#create_new_model_button
+				margin-bottom: 0 !important
+				width: auto
+				float: right
+
+		.format_target
+			padding: 0
+			margin-bottom: 0
+			order: 2
+			& > span
+				background-color: var(--md-sys-color-tertiary-container)
+				color: var(--md-sys-color-on-tertiary-container)
+
+		& > ul
+			max-height: 100%
+			padding: 1px
+			overflow-y: auto
+			grid-gap: 8px
+			border-radius: 12px
+			margin: 0
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+
+			&:not(.recent_list_grid)
+				outline: 1px solid var(--md-sys-color-outline-variant)
+				height: 100%
+
+			li.recent_project
+				&.thumbnail
+					position: relative
+					height: auto
+					overflow: hidden
+					background-color: var(--md-sys-color-surface)
+					border-radius: 12px
+					outline: 1px solid var(--md-sys-color-outline-variant)
+					min-height: 96px
+
+					padding: 0
+					padding-bottom: calc(12px + 32px)
+					&::after
+						+stateLayer.base
+
+					&:hover
+						&::after
+							+stateLayer.hover
+						.recent_project_name
+							color: var(--color-text)
+						.icon_wrapper
+							opacity: 1
+
+					&:active
+						&::after
+							+stateLayer.active
+
+					& > img
+						position: relative
+						left: -8px
+
+					&::before
+						content: ""
+						height: 100px
+						width: 100%
+						background: var(--md-sys-color-surface)
+						position: absolute
+						border-radius: 12px 12px 0 0
+
+					.recent_project_name
+						left: 38px
+						bottom: 5px
+						width: 100%
+						text-align: left
+						text-overflow: ellipsis
+						overflow: hidden
+						white-space: nowrap
+						font-size: var(--md-sys-typescale-label-large-font-size)
+						font-weight: var(--md-sys-typescale-label-large-font-weight)
+
+					.icon_wrapper, .recent_favorite_button
+						color: var(--md-sys-color-on-surface)
+						background-color: transparent
+						display: block
+
+					.icon_wrapper
+						top: auto
+						bottom: 8px
+						left: 8px
+				&:not(.thumbnail)
+					position: relative
+					background-color: var(--md-sys-color-surface)
+					color: var(--md-sys-color-on-surface-variant)
+					margin: 0
+					height: 56px
+					padding: 8px 16px
+					align-items: center
+					gap: 16px
+
+					&::after
+						+stateLayer.base
+
+					&:hover
+						&::after
+							+stateLayer.hover
+
+					&:active
+						&::after
+							+stateLayer.active
+
+					div.recent_favorite_button
+						order: 999
+						flex-shrink: 0
+						flex-grow: 0
+
+					.icon_wrapper
+						order: 1
+
+					.recent_project_name
+						position: absolute
+						overflow: hidden
+						white-space: nowrap
+						text-overflow: ellipsis
+
+						color: var(--md-sys-color-on-surface)
+						font-size: var(--md-sys-typescale-body-medium-font-size)
+						font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+						width: calc( 100% - 100px )
+						flex-grow: 1
+
+						left: 54px
+						margin-top: -16px
+
+					.recent_project_date
+						position: absolute
+						flex-grow: 0
+						left: 58px
+						color: var(--md-sys-color-on-surface-variant)
+						font-size: var(--md-sys-typescale-label-medium-font-size)
+						font-weight: var(--md-sys-typescale-label-medium-font-weight)
+						margin-top: 24px
+						&::before
+							content: none
+
+					.recent_favorite_button
+						visibility: visible
+						position: absolute
+						top: 10px
+						left: auto
+						right: 6px
+
+				.recent_favorite_button
+					padding: 6px
+					border-radius: 50%
+					left: 6px
+					right: auto
+					top: 6px
+					visibility: visible
+					&::after
+						+stateLayer.base
+
+					&:hover
+						&::after
+							+stateLayer.hover
+
+					&:active
+						&::after
+							+stateLayer.active
+
+		& > content, & > div:nth-child(3)
+			order: 1000
+			img
+				max-width: 100%
+				width: auto
+				max-height: 200px
+				outline: 1px solid var(--md-sys-color-outline)
+				border-radius: 12px
+				padding: 4px
+			.markdown
+				p
+					margin: 0
+				ul
+					li
+						margin: 2px 0
+			h3.markdown
+				padding-bottom: 0
+
+		#start_screen_view_menu
+			top: 18px
+			right: 22px
+			border-radius: 100px
+			.search_bar
+				margin: 0 8px
+				min-width: 30px
+
+			& > .tool
+				&:first-of-type
+					outline: 1px solid var(--md-sys-color-outline-variant)
+					border-radius: 100px 0 0 100px
+				&:last-of-type
+					outline: 1px solid var(--md-sys-color-outline-variant)
+					border-radius: 0 100px 100px 0
+
+	.start_screen_format_page
+		overflow-y: auto
+
+#page_wrapper
+	background: transparent

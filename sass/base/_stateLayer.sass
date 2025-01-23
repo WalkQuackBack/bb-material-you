@@ -1,0 +1,54 @@
+// =base($color: var(--md-sys-color-on-surface))
+// 	content: ""
+// 	position: absolute
+// 	inset: 0
+// 	opacity: 0
+// 	border-radius: inherit
+// 	pointer-events: none
+// 	background-color: $color
+// 	transition: 50ms opacity linear
+
+// =hover($color: var(--md-sys-color-on-surface), $opacity: 0.08)
+// 	opacity: $opacity
+// 	background-color: $color
+
+// // orig 0.1
+// =active($color: var(--md-sys-color-on-surface), $opacity: 0.1)
+// 	opacity: $opacity
+// 	background-color: $color
+
+=base($color: currentColor)
+	content: ""
+	position: absolute
+	inset: 0
+	opacity: 0
+	border-radius: inherit
+	pointer-events: none
+	background-color: $color
+	transition: 75ms opacity linear
+
+// Orig 0.08
+=hover($color: currentColor, $opacity: 0.08)
+	// We overwrite when touch is used
+	opacity: var(--stateHoverOpacity, $opacity)
+	background-color: var(--stateHoverColor, $color)
+
+// orig 0.24
+=active($color: currentColor, $opacity: 0.24)
+	opacity: var(--stateActiveOpacity, $opacity)
+	background-color: var(--stateActiveColor, $color)
+
+// @mixin ripple_base()
+// 	content: ""
+// 	position: absolute
+// 	inset: 0
+// 	opacity: 0
+// 	border-radius: inherit
+// 	pointer-events: none
+// 	clip-path: circle(20%)
+// 	background-color: var(--md-sys-color-primary)
+// 	transition: opacity 400ms ease, clip-path 400ms ease
+
+// @mixin ripple_active()
+// 	clip-path: circle(100%)
+// 	opacity: 0.15

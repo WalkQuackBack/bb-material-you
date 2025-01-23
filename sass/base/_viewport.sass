@@ -1,0 +1,237 @@
+@use "./stateLayer"
+
+#main_toolbar
+    background-color: transparent
+    margin-block-start: 4px
+    & > .toolbar_wrapper
+        &.tools
+            & > .toolbar
+                position: absolute
+                flex-direction: column-reverse
+                width: 38px
+                height: auto
+                top: calc( var(--toolbar-height) + 8px)
+                margin: 8px
+                border-radius: 4px
+                background-color: var(--md-sys-color-surface-container)
+                outline: 1px solid var(--md-sys-color-outline-variant)
+                overflow: visible
+                z-index: 5
+                .tool
+                    height: 34px
+                    &.side_menu_tool
+                        flex-direction: column
+                        width: 38px
+                        height: 34px
+                        & > .action_more_options
+                            // position: absolute
+                            color: inherit
+                            transform: translateY(-100%) translate(20px, 4px) rotate(-45deg)
+        &.tool_options > .toolbar
+            margin-inline-start: 6px
+            outline: 1px solid var(--md-sys-color-outline-variant)
+            outline-offset: -1px
+            border-radius: 4px
+            clip-path: inset(0 0 round 4px 4px)
+
+div.preview
+    clip-path: inset(0 round 4px)
+    margin: 4px 0
+    height: calc(100% - 8px)
+
+    background-color: var(--color-checkerboard)
+    &:hover
+        border-radius: 4px
+        outline: 1px solid var(--md-sys-color-outline-variant)
+        outline-offset: -1px
+
+    // UV Editor fix
+    & > .UVEditor
+        --color-background: var(--md-sys-color-surface)
+
+    // Preview floating bubble
+    .preview_menu
+        background-color: var(--md-sys-color-surface-container-highest)
+        top: 12px
+        right: 12px
+
+        padding: 6px
+        gap: 6px
+        border-radius: 100px
+
+        .tool[style$="display: none;"] + .tool:not([style$="display: none;"])
+            &::before
+                border-radius: 50% 0 0 50%
+
+        & > .tool
+            border-radius: 50%
+            position: relative
+            &::before
+                // background: blue
+                // Touch hit point
+                // Boilerplate
+                content: ""
+                position: absolute
+                pointer-events: all
+                // 
+
+                inset: -4px
+
+            &:last-child
+                &::before
+                    border-radius: 0 50% 50% 0
+
+#center
+    background: transparent
+    &.checkerboard, &.checkerboard_trigger &.checkerboard_target
+        background: transparent !important
+        .preview
+            --color-checker_offset: rgba(0, 0, 0, 0.16)
+            background-color: var(--color-checkerboard) !important
+            background-image: linear-gradient(45deg, var(--color-checkerboard) 25%, transparent 25%),linear-gradient(-45deg, var(--color-checkerboard) 25%, transparent 25%),linear-gradient(45deg, transparent 75%, var(--color-checkerboard) 75%),linear-gradient(-45deg, var(--color-checker_offset) 75%, var(--color-checkerboard) 75%)
+            background-size: 30px 30px
+            background-position: 0 0, 0 15px, 15px -15px, -15px 0px
+
+#work_screen
+    grid-template-rows: calc(var(--toolbar-height) + 4px) minmax(200px, 5000px) calc(36px + 4px) // grid-template-areas: "left_bar toolbar toolbar" "left_bar center right_bar" "left_bar status_bar right_bar"
+
+// Status bar
+#status_bar
+    background-color: var(--md-sys-color-surface-container-high)
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+
+    border-radius: 4px
+    margin-block-end: 4px
+
+    // I <3 flex
+    display: flex
+    align-items: center
+    height: 36px
+
+    // background: red
+    & > div#status_name
+        font-size: var(--md-sys-typescale-label-large-font-size)
+        font-weight: var(--md-sys-typescale-label-large-font-weight)
+        margin-top: 2px
+        white-space: nowrap
+        text-overflow: ellipsis
+
+    .status_bar_modifier_key
+        flex-grow: 0
+        margin-inline: 4px
+        span
+            color: var(--md-sys-color-on-surface)
+        kbd
+            margin-inline-end: 2px
+            font-size: var(--md-sys-typescale-label-medium-font-size)
+            font-weight: var(--md-sys-typescale-label-medium-font-weight)
+
+            display: inline-block
+            padding: 4px 6px
+            line-height: 10px
+
+            background-color: rgba(255 255 255 / 0.05)
+            border: solid 1px var(--md-sys-color-outline-variant)
+            border-bottom-color: var(--md-sys-color-surface-variant)
+            border-radius: 6px
+            box-shadow: inset 0 -1px 0 var(--md-sys-color-surface)
+
+            // background: var(--md-sys-color-secondary-container)
+            // color: var(--md-sys-color-on-secondary-container)
+            // outline: none
+    .sidebar_toggle_button, .f_left
+        height: 36px
+        width: 36px
+        display: flex
+        align-items: center
+        justify-content: center
+        position: relative
+        background: none !important
+        --border-radius: 8px
+        &::before
+            content: ""
+            position: absolute
+            pointer-events: none
+            border-radius: var(--border-radius)
+            inset: 4px
+            background: var(--md-sys-color-surface-container-highest)
+        &::after
+            +stateLayer.base
+            inset: 4px
+            border-radius: var(--border-radius)
+        &:hover
+            &::after
+                +stateLayer.hover
+        &:active
+            &::after
+                +stateLayer.active
+        i
+            z-index: 1
+        &[style="background-color: var(--color-stream); color: var(--color-light);"]
+            i
+                color: var(--color-on-stream)
+            &::before
+                background-color: var(--color-stream)
+
+.selection_rectangle
+    border: 1px solid var(--md-sys-color-primary)
+    background-color: transparent
+    &::after
+        content: ""
+        position: absolute
+        inset: 0
+        background: var(--md-sys-color-secondary)
+        opacity: 0.25
+
+// Orbit gizmo
+.orbit_gizmo
+    bottom: 8px
+    right: 8px
+    width: 100px
+    height: 100px
+    outline: 1px solid var(--md-sys-color-outline-variant)
+    transition: 75ms opacity linear
+
+    &.mouse_active
+        outline-color: var(--md-sys-color-primary)
+
+    &:not(.mouse_active) .orbit_gizmo_side
+        &:hover
+            outline: 2px solid var(--md-sys-color-primary)
+            outline-offset: 2px
+            filter: brightness(1.1) saturate(2)
+            scale: 1.1 !important
+            &[axis="x"]
+                background-color: var(--color-axis-x) !important
+            &[axis="y"]
+                background-color: var(--color-axis-y) !important
+            &[axis="z"]
+                background-color: var(--color-axis-z) !important
+        &:active
+            scale: 0.9 !important
+
+    & > svg
+        width: 80px
+        height: 80px
+        margin: 8px
+        path
+            stroke-width: 6px
+
+    &:has(> .orbit_gizmo_side[style*="top: 12px;"])
+        & > .orbit_gizmo_side
+            transition: 100ms transform ease, 150ms scale ease//, 150ms filter linear, 200ms left ease, 200ms top ease
+
+    & > .orbit_gizmo_side
+        margin: 0
+        border-radius: 8px
+        width: 20px
+        height: 20px
+        font-family: "Roboto"
+        font-weight: 800
+        font-size: 14px
+        line-height: 21px
+        color: var(--md-sys-color-inverse-on-surface)
+
+        transition: 150ms scale ease//, 150ms filter linear
+        &.background
+            filter: brightness(0.5)

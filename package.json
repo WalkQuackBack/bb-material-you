@@ -1,0 +1,11 @@
+{
+  "name": "scripts",
+  "type": "module",
+  "scripts": {
+    "build": "node compile.js"
+  },
+  "devDependencies": {
+    "lightningcss": "^1.29.1",
+    "sass": "^1.83.4"
+  }
+}

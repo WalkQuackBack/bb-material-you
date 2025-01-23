@@ -1,0 +1,815 @@
+@use "stateLayer"
+@use "contextMenu"
+
+// Outlined button (default)
+// https://m3.material.io/components/buttons/specs#de72d8b1-ba16-4cd7-989e-e2ad3293cf63
+button
+    width: auto
+    height: 40px
+    padding: 0 24px
+    border: 1px solid var(--md-sys-color-outline)
+    border-radius: 100px
+
+    position: relative
+
+    line-height: 25px
+    font-size: var(--md-sys-typescale-label-large-font-size)
+    font-weight: var(--md-sys-typescale-label-large-font-weight)
+    color: var(--md-sys-color-primary) !important
+    background-color: transparent
+
+    &::after
+        +stateLayer.base($color: currentColor)
+
+    // &:disabled
+    //     cursor: default
+    //     background-color: transparent
+    //     color: var(--md-sys-color-on-surface) !important
+    //     opacity: 0.38
+    //     border: 1px solid var(--md-sys-color-on-surface)
+
+    &:hover
+        background-color: transparent
+        border: 1px solid var(--md-sys-color-outline)
+        color: var(--md-sys-color-primary) !important
+        &::after
+            +stateLayer.hover($color: currentColor)
+
+    &:active
+        background-color: transparent
+        border: 1px solid var(--md-sys-color-outline)
+        &::after
+            +stateLayer.active($color: currentColor)
+
+    // important
+    &:focus
+        text-decoration: none
+
+#plugin_browser_page .button_bar button
+    border-radius: 12px
+    &:hover
+        background-color: transparent
+
+// Filled button (dialog submit)
+// https://m3.material.io/components/buttons/specs#0b1b7bd2-3de8-431a-afa1-d692e2e18b0d
+
+.button_bar > button.confirm_btn, button#create_new_model_button
+    border: 1px solid transparent
+
+    background-color: var(--md-sys-color-primary) !important
+    color: var(--md-sys-color-on-primary) !important
+
+    &:hover
+        &::after
+            +stateLayer.hover($color: currentColor)
+
+    &:active
+        &::after
+            +stateLayer.active($color: currentColor)
+
+    // &:disabled
+    //     cursor: default
+    //     background-color: var(--md-sys-color-on-surface)
+    //     opacity: 0.12
+    //     color: #57575b !important
+    //     border: 1px solid #2c2c2f
+
+// filled tonal button (secondary action)
+// https://m3.material.io/components/buttons/specs#158f0a18-67fb-4ac4-9d22-cc4d1adc4579
+.button_bar > button:nth-child(2)
+    border: 1px solid transparent
+
+    background-color: var(--md-sys-color-secondary-container) !important
+    color: var(--md-sys-color-on-secondary-container) !important
+
+    &:hover
+        &::after
+            +stateLayer.hover($color: currentColor)
+
+    &:active
+        &::after
+            +stateLayer.active($color: currentColor)
+
+// Standard Icon Button
+// https://m3.material.io/components/icon-buttons/specs#eca0451e-430b-41e1-bea3-a31cb7ccda76
+.in_list_button, i.clickable
+    position: relative
+    width: 22px
+    height: 22px
+    border-radius: 50%
+    margin: 0 6px
+
+    position: relative
+    overflow: visible
+
+    &::after
+        +stateLayer.base
+        inset: -9px
+        pointer-events: all
+
+    &:hover
+        &::after
+            +stateLayer.hover
+
+    &:active
+        &::after
+            +stateLayer.active
+        & > i
+            transform: scale(80%)
+
+    i
+        transition: 100ms cubic-bezier(0.3, 0, 1, 1) transform
+
+// Snackbar
+// https://m3.material.io/components/snackbar/specs
+#quick_message_box, .uv_message_box, .toast_notification
+    max-width: none
+    height: auto
+    padding: 14px 16px
+    top: auto
+    bottom: 40px
+    padding-right: clamp(0px, 5vw, 70px)
+    background-color: var(--md-sys-color-inverse-surface)
+    color: var(--md-sys-color-inverse-on-surface)
+    box-shadow: 0px 1px 2px rgba(0 0 0 / 30%), 0px 2px 6px 2px rgba(0 0 0 / 15%)
+    border-radius: 4px
+    text-align: start
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+    // Big screens only
+    // inset-inline-start: 32px
+    // bottom: 32px
+    // inset-inline-end: auto
+
+#toast_notification_list
+    top: auto
+    bottom: 60px
+
+.toast_notification
+    display: flex
+    gap: 8px
+    align-items: center
+
+    position: absolute
+    inset: auto
+    inset-inline-start: 50%
+    transform: translateX(-50%)
+    max-width: 600px
+
+.toast_close_button
+    position: absolute
+    inset-inline-end: 10px
+    inset-block: 10px
+    border-radius: 50%
+    &::after
+        +stateLayer.base
+    &:hover
+        color: var(--md-sys-color-inverse-on-surface)
+        &::after
+            +stateLayer.hover
+    &:active
+        &::after
+            +stateLayer.active
+
+.uv_message_box
+    width: fit-content
+    top: 40px
+    bottom: auto
+
+// checkbox
+// https://m3.material.io/components/checkbox/specs
+input[type=checkbox]
+    // background: blue
+    appearance: none
+    position: relative
+    width: 20px
+    height: 20px
+    min-width: 0
+    display: flex
+    align-items: center
+    justify-content: center
+
+    &::before
+        content: ""
+        position: absolute
+        width: 18px
+        height: 18px
+        line-height: 18px
+
+        border-radius: 2px
+        outline-offset: -2px
+        outline: 2px solid var(--md-sys-color-on-surface-variant)
+
+        content: "check"
+        font-family: "Material Icons"
+        font-size: 18px !important
+        color: transparent
+
+    &::after
+        +stateLayer.base
+        pointer-events: all
+        border-radius: 50%
+        inset: -10px // 40dp stateLayer size
+
+    &:hover
+        &::after
+            +stateLayer.hover
+
+    &:active
+        &::after
+            +stateLayer.active
+
+    &:checked
+        // outline-width: 0
+        &::before
+            content: "check"
+            font-family: "Material Icons"
+
+            color: var(--md-sys-color-on-primary)
+            outline-color: var(--md-sys-color-primary)
+            background-color: var(--md-sys-color-primary)
+
+// bb-select (Menu)
+// https://m3.material.io/components/menus/specs
+bb-select, select
+    height: 32px
+    background-color: var(--md-sys-color-surface-container-highest)
+    padding: 10px
+    border-radius: 4px 4px 0 0
+    min-width: 112px
+    max-width: 280px
+    line-height: 14px
+
+    display: flex
+    align-content: center
+
+    border-bottom: 1px solid var(--md-sys-color-primary)
+
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+    &::before
+        content: "arrow_drop_down"
+        font-family: "Material Icons"
+        font-size: 24px
+        line-height: 24px
+        top: 4px
+        right: 16px
+
+    &::after
+        +stateLayer.base
+
+    &:hover::after
+        +stateLayer.hover
+
+    &:active::after
+        +stateLayer.active
+
+// Inputs (text field)
+// DEVIATION: make smaller
+// https://m3.material.io/components/text-fields/specs#68b00bd6-ab40-4b4f-93d9-ed1fbbc5d06e
+div.nslide,
+.settings_list input[type=text],
+.settings_list input[type=password],
+input[type=text],
+input[type=password],
+.dark_bordered,
+.prism-editor-wrapper,
+.keybind_line > div.keybindslot
+    caret-color: var(--md-sys-color-primary)
+    background-color: transparent
+    border-radius: 4px
+    padding: 4px 6px
+    line-height: 1.5
+
+    outline: 1px solid var(--md-sys-color-outline)
+    outline-offset: -1px
+
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+    &:hover
+        outline-color: var(--md-sys-color-inverse-surface)
+        outline-width: 2px
+        outline-offset: -2px
+
+    &:focus
+        outline-width: 3px
+        outline-offset: -3px
+        outline-color: var(--md-sys-color-primary)
+
+*.dark_bordered
+    background-color: transparent
+    // outline: none
+
+.search_bar
+    width: auto
+    outline: 1px solid var(--md-sys-color-outline-variant)
+    border-radius: 100px
+    input
+        border-radius: 100px
+        padding-left: calc(16px + 16px)
+
+    i
+        float: left
+        left: 4px
+        right: auto
+        margin-top: 4px
+
+.numeric_input
+    min-width: 56px
+    & > div.tool
+        width: 24px
+        height: auto
+        inset-block: 0
+        right: -1px
+        // background: red
+        border-radius: 0 4px 4px 0
+        &::after
+            position: absolute
+            inset: 0
+            transform: none
+    & > input
+        padding-inline-end: calc( 20px + 4px )
+
+// Tools (Matches Icon Button)
+// https://m3.material.io/components/icon-buttons/specs
+
+*.tool
+    // Some element styles overwrite this.
+    color: inherit !important
+    margin-inline: 0
+    border-radius: 4px
+
+    width: 38px
+
+    // So layout doesn't break
+
+    & > i
+        // For some reason some element styles appear that overwrite this.
+        color: inherit !important
+        transition: 150ms cubic-bezier(0.2, 0.0, 0.0, 1.0) scale
+
+    // Special state layer DON'T CHANGE IT BREAKS TOOLTIPS
+    &::after
+        +stateLayer.base
+
+        position: relative
+        display: block
+
+        inset: auto
+        width: inherit
+        height: inherit
+
+    &:not(:is(.side_menu_tool))
+        &::after
+            transform: translate(0, -30px)
+
+    &.wide
+        padding: 0
+
+    &:hover
+        // Some element styles overwrite this.
+        color: inherit !important
+        & > i
+            color: inherit
+        &::after
+            +stateLayer.hover($color: currentColor)
+
+    &:active
+        &::after
+            +stateLayer.active($color: currentColor)
+        .icon
+            padding-top: 0
+            &.fa_big
+                padding-top: 3px
+        & > i
+            scale: 0.8
+            color: inherit
+
+    &.enabled,
+    &.selected
+        border-bottom: none
+        background-color: var(--md-sys-color-primary)
+        // Some element styles overwrite this.
+        color: var(--md-sys-color-on-primary) !important
+
+    & > bb-select
+        height: var(--toolbar-height)
+        padding-block: 8px
+        &::before
+            font-size: 16px
+
+    &.side_menu_tool i.icon.action_more_options
+        color: inherit
+        margin: 4px -2px
+        width: auto
+
+    &.bar_select
+        &.icon_mode
+            padding-inline: 6px
+            margin-inline: 2px
+            border-radius: 4px
+            background-color: var(--md-sys-color-surface-container)
+        .select_option
+            position: relative
+            width: 32px
+            &::after
+                +stateLayer.base
+            &:hover
+                &::after
+                    +stateLayer.hover
+            &:active
+                &::after
+                    +stateLayer.active
+                i
+                    transform: scale(0.86)
+
+    &.nslide_tool
+        &.is_colored
+            .nslide
+                &::before
+                    // left: 0
+                    border-right-width: 4px
+
+    // Standard icon button
+    &.form_input_tool
+        position: relative
+        width: 22px
+        height: 22px
+        border-radius: 50%
+        margin: 0 6px
+
+        position: relative
+        overflow: visible
+
+        &::after
+            +stateLayer.base
+            inset: -9px
+            height: auto
+            transform: none
+            pointer-events: all
+
+        &:hover
+            &::after
+                +stateLayer.hover
+
+        &:active
+            &::after
+                +stateLayer.active
+            & > i
+                transform: scale(80%)
+
+// toolbar
+.toolbar_wrapper.tool_options
+    flex-grow: 0
+
+.toolbar
+    align-items: center
+    background-color: var(--md-sys-color-surface-container-low)
+
+    & > .content
+        & > .tool.wide
+            margin-inline: 2px
+
+    .toolbar_separator.border
+        background-color: var(--md-sys-color-outline-variant)
+
+    bb-select, input[type=text], div.nslide
+        font-size: var(--md-sys-typescale-body-medium-font-size)
+        height: auto
+        padding: 6px 8px
+
+    div.nslide
+        margin-block: 1px
+        line-height: 20px
+        height: 27px
+
+    // &.no_wrap
+    //     & > .content
+    //         overflow-y: scroll !important
+    //         scroll-snap-type: y proximity
+    //         max-height: 100%
+    //         .tooltip
+    //             right: 48px
+    //         & > .tool
+    //             scroll-snap-align: start
+
+    & > .tool, & > .content > .tool
+        border-radius: 0
+        &.toolbar_menu
+            width: 36px
+            & > i
+                margin-left: 8px
+
+        &.bar_select
+            height: auto
+            bb-select
+                line-height: 16px
+                &::before
+                    font-size: 16px
+                    top: 2px
+                    right: 6px
+
+// tooltip
+// https://m3.material.io/components/tooltips/specs#cbda3efe-2f4c-4565-9853-88af60f51e8c
+.tooltip
+    background-color: var(--md-sys-color-surface-container)
+    color: var(--md-sys-color-on-surface-variant)
+    border-radius: 12px
+    font-size: var(--md-sys-typescale-title-small-font-size)
+    font-weight: var(--md-sys-typescale-title-small-font-weight)
+    line-height: 20px
+    padding-inline: 16px
+    padding-block: 12px 8px
+    width: fit-content
+    max-width: 200px
+    height: auto
+    text-align: left
+    visibility: hidden
+
+    opacity: 0
+    transition: 100ms opacity linear
+    transition-delay: 200ms
+    pointer-events: none
+
+    &[style*="right: auto"]
+        right: 48px !important
+
+.tool:hover > .tooltip
+    opacity: 1
+
+.tooltip_description
+    position: relative
+    background-color: transparent
+    border: none
+    margin-top: 4px !important
+    color: var(--md-sys-color-on-surface-variant)
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+    word-wrap: normal
+    white-space: normal
+    opacity: 1
+
+.tool:hover > .tooltip .tooltip_description
+    transition: none
+
+#cursor_tooltip
+    background-color: var(--md-sys-color-inverse-surface)
+    color: var(--md-sys-color-inverse-on-surface)
+    border-radius: 4px
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+    height: 24px
+    padding: 0 8px
+    line-height: 24px
+    box-shadow: none
+    pointer-events: none
+
+// Color Picker (No matching M3 Component)
+// N/A
+.sp-color
+    right: 32px
+    border-radius: 4px
+    overflow: hidden
+
+.sp-hue
+    width: 24px
+    border-radius: 100px
+    overflow: hidden
+    border: 1px solid var(--md-sys-color-on-surface-variant)
+
+.sp-dragger
+    border-radius: 6px
+    height: 12px
+    width: 12px
+    border: none
+    background: var(--md-sys-color-primary)
+    margin-top: 6px
+    margin-left: 6px
+
+.sp-replacer
+    margin: 0
+    cursor: default
+    padding: 0
+    width: 18px
+    height: 15px
+    background: var(--color-ui)
+    color: var(--color-text)
+
+.sp-slider
+    border: none
+    border-radius: 100px
+    width: 24px
+    height: 4px
+    left: 0
+    right: 0
+    margin-left: -1px
+    margin-top: 2px
+    background: var(--md-sys-color-inverse-surface)
+    mix-blend-mode: difference
+
+.sp-preview
+    height: 11px
+    width: 14px
+    margin: 2px
+
+.sp-dd
+    display: none
+
+.sp-container
+    border-radius: 12px
+    background-color: var(--md-sys-color-surface-container-high)
+    outline: 1px solid var(--md-sys-color-outline)
+    box-shadow: none
+    .sp-color
+        border-radius: 6px
+
+.sp-picker-container
+    padding: 12px
+    width: 248px
+
+.sp-input-container
+    margin: 0
+    width: 96px
+    & > input
+        padding: 12px
+        height: 38px
+
+.sp-palette-button-container, .sp-button-container
+    height: 38px
+    display: flex
+    gap: 8px
+    & > a
+        position: relative
+        display: inline-block
+        border-radius: 8px
+        padding: 7px
+        aspect-ratio: 1/1
+        background-color: var(--md-sys-color-secondary-container)
+        color: var(--md-sys-color-on-secondary-container)
+        margin-right: 0
+        i
+            margin-left: 1px
+        &::after
+            +stateLayer.base
+        &:hover
+            color: var(--md-sys-color-on-secondary-container)
+            &.sp-choose
+                color: var(--md-sys-color-on-primary)
+            &.sp-cancel
+                color: var(--md-sys-color-on-error)
+            &::after
+                +stateLayer.hover($color: currentColor)
+        &:active
+            &::after
+                +stateLayer.active
+
+        &.sp-reset
+            order: 1
+        &.sp-choose
+            background-color: var(--md-sys-color-primary)
+            color: var(--md-sys-color-on-primary)
+            order: 2
+        &.sp-cancel
+            background-color: var(--md-sys-color-error)
+            color: var(--md-sys-color-on-error)
+            order: 3
+
+// radio tabs (No matching M3 component)
+// N/A
+.tabs_small
+    font-size: var(--md-sys-typescale-title-small-font-size)
+    font-weight: var(--md-sys-typescale-title-small-font-weight)
+    background-color: var(--md-sys-color-surface-container-high)
+    height: 28px
+    input[type="radio"]
+        &+label
+            height: auto
+            line-height: 22px
+            position: relative
+            border-right: 1px solid var(--md-sys-color-outline-variant)
+            &::after
+                +stateLayer.base
+
+            &:hover
+                &::after
+                    +stateLayer.hover
+
+            &:active
+                &::after
+                    +stateLayer.active
+        &:checked+label
+            border: none
+            background-color: var(--md-sys-color-secondary-container)
+            color: var(--md-sys-color-on-secondary-container)
+
+// prism, code editing
+// N/A
+code, pre
+    &[class*="language-"]
+        color: var(--md-sys-color-on-surface)
+        text-shadow: 0 1px rgba(0, 0, 0, 0.3)
+        font-family: var(--font-code)
+        font-size: var(--md-sys-typescale-body-medium-font-size)
+        line-height: 1.5
+
+.prism-editor-wrapper
+    border: none
+    border-radius: inherit
+
+.prism-editor__autocomplete
+    background-color: var(--md-sys-color-surface-container)
+    border: 1px solid var(--md-sys-color-outline-variant)
+    border-radius: 8px
+    li
+        font-family: var(--font-code)
+        font-size: var(--md-sys-typescale-body-medium-font-size)
+        font-weight: var(--md-sys-typescale-body-medium-font-weight)
+        position: relative
+        &.selected
+            background-color: var(--md-sys-color-secondary-container)
+            color: var(--md-sys-color-on-secondary-container)
+        &::after
+            +stateLayer.base
+        &:hover
+            &::after
+                +stateLayer.hover
+
+        &:active
+            &::after
+                +stateLayer.active
+
+.molang_input
+    border-radius: 4px
+    outline: 3px solid transparent
+    outline-offset: -3px
+    &:has(> .prism-editor-wrapper > pre:first-of-type:focus)
+        outline: 3px solid var(--md-sys-color-primary)
+    pre
+        min-height: 0
+        caret-color: var(--md-sys-color-primary)
+        background: none
+
+// Segmented button bar
+// N/A
+.form_inline_select
+    gap: 0
+    border-radius: 8px
+    overflow: hidden
+    & > li
+        background-color: var(--md-sys-color-secondary-container)
+        color: var(--md-sys-color-on-secondary-container)
+        font-size: var(--md-sys-typescale-label-large-font-size)
+        font-weight: var(--md-sys-typescale-label-large-font-weight)
+        padding: 4px
+
+// Divider
+// https://m3.material.io/components/divider/guidelines
+hr
+    border-top: 1px solid var(--md-sys-color-outline-variant)
+    margin: 12px 0
+
+// Pagination numbers
+ol.pagination_numbers
+    justify-content: stretch
+    gap: 0
+    & > li
+        display: flex
+        align-items: center
+        justify-content: center
+        width: auto
+        padding: 8px 0
+        border-radius: 8px
+        flex-grow: 1
+        position: relative
+        isolation: isolate
+
+        &::after
+            content: ""
+            position: absolute
+            inset: 4px
+            border-radius: inherit
+            pointer-events: none
+            z-index: -1
+
+            outline: 1px solid var(--md-sys-color-outline-variant)
+            outline-offset: 0
+
+        &:hover
+            background-color: transparent
+            color: var(--md-sys-color-on-surface)
+            &::after
+                +stateLayer.hover
+
+        &:active
+            &::after
+                +stateLayer.active
+
+        &.selected
+            background-color: transparent
+            color: var(--md-sys-color-on-secondary-container)
+            &::after
+                opacity: 1
+                background-color: var(--md-sys-color-secondary-container)

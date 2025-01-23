@@ -1,0 +1,75 @@
+* {
+	--color-ui: var(
+		--md-sys-color-surface
+	) !important;
+	--color-back: var(
+		--md-sys-color-surface
+	) !important;
+	--color-dark: var(
+		--md-sys-color-surface-container-low
+	) !important;
+	--color-frame: var(
+		--md-sys-color-surface
+	) !important;
+	--color-text: var(
+		--md-sys-color-on-surface
+	) !important;
+	--color-subtle_text: var(
+		--md-sys-color-outline
+	) !important;
+	--color-light: var(
+		--md-sys-color-on-surface
+	) !important;
+	--color-selected: var(
+		--md-sys-color-accent
+	) !important;
+	--color-button: var(
+		--md-sys-color-surface-container-high
+	) !important;
+	--color-accent: var(
+		--md-sys-color-primary
+	) !important;
+	--color-accent_text: var(
+		--md-sys-color-on-primary
+	) !important;
+	--color-bright_ui: var(
+		--md-sys-color-surface-container-high
+	) !important;
+	--color-checkerboard: var(
+		--md-sys-color-surface
+	) !important;
+	--color-close: var(
+		--md-sys-color-error-container
+	);
+	--color-wireframe: var(
+		--md-sys-color-secondary
+	) !important;
+	--color-border: var(
+		--md-sys-color-outline-variant
+	) !important;
+	--color-stream: #58328b !important;
+	--color-on-stream: #eddcff !important;
+}
+
+.theme_preview_menu > .theme_preview_text {
+	background-color: var(--color-text);
+}
+
+.theme_preview_menu {
+	border-radius: 4px;
+}
+
+.theme_preview_header {
+	display: flex;
+	align-items: center;
+}
+
+.theme_preview_menu_header {
+	height: 14px;
+	margin-top: -2px;
+	border-radius: 6px;
+}
+
+.theme_preview_menu_header .theme_preview_text {
+	margin: 4px 4px;
+}

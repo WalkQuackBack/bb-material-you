@@ -1,0 +1,227 @@
+@use "./stateLayer"
+
+body
+    --menu-bar-height: 35px
+
+header
+    height: 35px
+    align-items: center
+    gap: 2px
+
+    background-color: var(--md-sys-color-surface-container)
+    div#corner_logo
+        min-width: 36px
+        overflow: hidden
+        background-image: url("./assets/logo_text_white.svg")
+        background-size: 112px
+        background-position: 12px
+        background-repeat: no-repeat
+        mix-blend-mode: difference
+
+        margin-inline: -2px 4px
+        & > img
+            display: none
+
+    // Windows Only
+    #windows_window_menu
+        svg
+            margin-top: 0
+        li
+            display: flex
+            align-items: center
+            justify-content: center
+
+            position: relative
+
+            width: 46px
+            height: 100%
+            text-align: center
+            float: left
+
+            transition: none
+
+            color: var(--md-sys-color-inverse-surface)
+
+            &::after
+                +stateLayer.base()
+                background-color: var(--md-sys-color-inverse-surface)
+                transition: 200ms ease opacity
+
+            &:hover
+                &::after
+                    +stateLayer.hover()
+                &.wwm_r
+                    background-color: #e81123 // TODO: change Hardcoded system Colour
+                    color: #FFFFFF
+
+            &:active
+                &::after
+                    +stateLayer.active()
+
+    #menu_bar
+        display: flex
+        align-items: center
+        gap: 2px
+        .menu_bar_point
+            height: 22px
+            border-radius: 5px
+            padding: 0 8px
+            line-height: 24px
+            font-size: var(--md-sys-typescale-body-medium-font-size)
+            font-weight: var(--md-sys-typescale-body-medium-font-weight)
+            min-width: min-content
+            color: var(--md-sys-color-on-surface-variant)
+            position: relative
+            &::before
+                // Touch hit point
+                // Boilerplate
+                content: ""
+                position: absolute
+                pointer-events: all
+                // 
+
+                inset: 0
+                inset-block: -6px
+
+            &::after
+                +stateLayer.base
+            &:hover
+                &::after
+                    +stateLayer.hover()
+            &:active, &.opened
+                background-color: transparent
+                color: var(--md-sys-color-on-surface-variant)
+                &::after
+                    +stateLayer.active()
+
+            &.highlighted
+                animation: menu_item_highlight 1s infinite ease-in-out
+                outline: 1px solid var(--md-sys-color-primary)
+
+    div#header_free_bar.app-drag-region
+        height: 100%
+        margin-top: 0
+        // background: red
+        line-height: 30px
+        isolation: isolate
+        font-size: var(--md-sys-typescale-title-small-font-size)
+        font-weight: var(--md-sys-typescale-title-small-font-weight)
+
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+
+        position: relative
+        color: var(--md-sys-color-on-surface)
+
+        &.resize_space
+            line-height: 36px
+            margin-top: 0
+            height: 100%
+
+        &::after
+            // Boilerplate
+            content: ""
+            position: absolute
+            pointer-events: none
+            // 
+
+            inset: 6px 48px
+            border-radius: 5px
+            z-index: -1
+            background: var(--md-sys-color-surface-container-high)
+
+    // TODO: Ordering cleanly
+    #mac_window_menu
+        order: 1
+
+    #corner_logo
+        order: 2
+
+    #menu_bar
+        order: 3
+
+    #title_bar_home_button
+        order: 4
+
+    #settings_profiles_header_menu
+        order: 5
+
+    #header_free_bar
+        order: 10
+
+    #web_download_button
+        order: 100
+
+    #update_menu
+        order: 120
+        padding-block: 6px
+
+    #windows_window_menu
+        order: 999
+
+body:not(.is_mobile) header .tool,
+body:not(.is_mobile) #settings_profiles_header_menu,
+body:not(.is_mobile) #update_menu > .tool
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 0
+    margin: 0
+    opacity: 1
+
+    // Then...
+    height: 22px
+    border-radius: 5px
+    padding: 0 8px
+    line-height: 24px
+    font-size: var(--md-sys-typescale-body-medium-font-size)
+    font-weight: var(--md-sys-typescale-body-medium-font-weight)
+    min-width: min-content
+    color: var(--md-sys-color-on-surface-variant)
+    position: relative
+    &::before
+        // Touch hit point
+        // Boilerplate
+        content: ""
+        position: absolute
+        pointer-events: all
+        // 
+
+        inset: 0
+        inset-block: -6px
+
+    &::after
+        height: auto
+        transform: none
+        +stateLayer.base
+        // ?Override tool styles
+
+    &:hover
+        &::after
+            +stateLayer.hover($color: currentColor)
+    &:active, &.opened
+        background-color: transparent
+        color: var(--md-sys-color-on-surface-variant)
+        &::after
+            +stateLayer.active($color: currentColor)
+
+    & > i.icon
+        margin: 0
+        transform: scale(0.8)
+
+#title_bar_home_button
+
+@keyframes menu_item_highlight
+    0%
+        background-color: transparent
+
+    50%
+        background-color: var(--md-sys-color-primary-container)
+        color: var(--md-sys-color-on-primary-container)
+        box-shadow: 0 0 20px 0 var(--md-sys-color-primary), inset 0 0 15px 0 var(--md-sys-color-primary)
+        font-weight: bold
+        border-radius: 6px
+
+    100%
+        background-color: transparent

@@ -1,0 +1,135 @@
+@use "./stateLayer"
+
+#tab_bar
+    height: 44px
+    width: 100%
+    padding: 6px
+    display: flex
+    background-color: var(--md-sys-color-surface-container-low)
+
+    &.drag_mode .project_tab
+        transition: 300ms cubic-bezier(0.2, 0.0, 0, 1.0) transform
+
+    .project_tab
+        min-width: 180px
+        padding-block: 2px
+        padding-inline: 16px
+        margin-inline: 6px
+        border-radius: 6px
+        width: auto
+        max-width: 20%
+
+        background-color: var(--md-sys-color-surface-container-high)
+
+        margin-left: 0
+        position: relative
+
+        border-top: none
+
+        display: flex
+        align-items: center
+        justify-content: center
+
+        cursor: default
+
+        &::before
+            +stateLayer.base
+
+        &:hover
+            &:not(.selected)
+                background-color: var(--md-sys-color-surface-container-high)
+            &::before
+                +stateLayer.hover
+
+        &:active
+            &::before
+                +stateLayer.active
+
+        & > label
+            font-size: 14px
+            width: auto
+            flex: 0 1 auto
+            overflow: hidden
+            text-overflow: ellipsis
+
+        &.move_back
+            left: 0
+            transform: translateX(-100%)
+
+        &.move_forth
+            left: 0
+            transform: translateX(100%)
+
+        &.selected
+            border-top: none
+            background-color: var(--md-sys-color-secondary-container)
+            color: var(--md-sys-color-on-secondary-container)
+            &.new_tab
+                background-color: var(--md-sys-color-secondary-container)
+                color: var(--md-sys-color-on-secondary-container)
+            .project_tab_close_button
+                color: var(--md-sys-color-on-secondary-container)
+
+    .project_tab_close_button
+        color: var(--md-sys-color-on-surface-variant)
+        display: block
+        line-height: 20px
+
+#new_tab_button,
+#search_tab_button,
+// Plugin
+.sidebar_explorer_open_button
+    background-color: var(--md-sys-color-secondary-container)
+    color: var(--md-sys-color-on-secondary-container)
+    height: 32px
+    width: 32px
+    border-radius: 50%
+    margin: 0
+    cursor: default
+    padding-top: 5px
+    position: relative
+    &::after
+        +stateLayer.base($color: currentColor)
+    &:hover
+        color: var(--md-sys-color-on-secondary-container)
+        &::after
+            +stateLayer.hover($color: currentColor)
+    &:active
+        &::after
+            +stateLayer.active($color: currentColor)
+        & > i
+            transform: scale(80%)
+        i
+            transition: 100ms cubic-bezier(0.3, 0, 1, 1) transform
+
+#new_tab_button
+    background-color: var(--md-sys-color-primary)
+    color: var(--md-sys-color-on-primary)
+    position: sticky
+    &:hover
+        color: var(--md-sys-color-on-primary)
+
+#search_tab_button
+    margin-inline-start: 8px
+    background-color: var(--md-sys-color-tertiary)
+    color: var(--md-sys-color-on-tertiary)
+    &:hover
+        color: var(--md-sys-color-on-tertiary)
+
+// Plugin
+.sidebar_explorer_open_button
+    padding-top: 2px
+    padding-left: 2px
+    &::after
+        transform: none
+
+#tab_bar_list
+    display: flex
+    flex-grow: 1
+    width: auto
+    margin-inline: 8px
+    border-radius: 8px
+
+/* tab change animations */
+
+/* tab animations */
