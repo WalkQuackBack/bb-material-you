@@ -1,4 +1,4 @@
-@use "stateLayer"
+@use "../stateLayer"
 
 // the .dialog is to win specifity
 dialog.dialog
@@ -6,12 +6,15 @@ dialog.dialog
     border-radius: 28px
     overflow: hidden
     min-width: 280px
-    max-width: 560px
     height: auto
     box-shadow: none
     animation: fadeIn 400ms cubic-bezier(0.05, 0.7, 0.1, 1.0), scaleYIn 400ms cubic-bezier(0.05, 0.7, 0.1, 1.0)
     & > content, .dialog_wrapper > content, .dialog_content
         padding: 24px
+
+    &:not(.resizable)
+        // max-width: max(560px, calc(100dvw - 24px))
+        max-width: clamp(calc(100dvw - 24px), 280px, 960px)
 
     .dialog_bar
         &.markdown
@@ -98,7 +101,7 @@ dialog.dialog
     font-weight: var(--md-sys-typescale-body-medium-font-weight)
     background-color: var(--md-sys-color-surface-container-high)
     position: relative
-    padding: 6px 12px
+    padding: 12px 14px
     &::before
         margin-right: 0
     &::after
@@ -108,6 +111,9 @@ dialog.dialog
         color: var(--md-sys-color-on-surface)
         &::after
             +stateLayer.hover
+    &:active
+        &::after
+            +stateLayer.active
 
 /* sidebar > topbar */
 .dialog_sidebar
@@ -140,24 +146,15 @@ dialog.dialog
             font-size: var(--md-sys-typescale-title-small-font-size)
             color: var(--md-sys-color-on-surface-variant)
 
-            &.error
-                content: ""
-                width: 100%
-                height: 2px
-                position: absolute
-                bottom: 0
-                left: 0
-                right: 0
-                transition: 250ms ease transform
-                transform: translateX(-100%) scaleX(80%)
-
             &::before
                 +stateLayer.base
 
             &:hover
-                color: var(--md-sys-color-on-surface)
+                color: var(--md-sys-color-on-surface-variant)
                 &::before
                     +stateLayer.hover
+                &::after
+                    will-change: opacity
 
             &:active
                 &::before
@@ -171,15 +168,16 @@ dialog.dialog
                 bottom: 0
                 left: 0
                 right: 0
-                transition: 250ms ease transform
-                transform: translateX(-100%) scaleX(80%)
+                background-color: var(--md-sys-color-primary)
+                opacity: 0
+                transition: 125ms opacity linear
+
             &.selected
                 border-left: none
                 background: var(--md-sys-color-surface-container)
                 color: var(--md-sys-color-on-surface)
                 &::after
-                    background-color: var(--md-sys-color-primary)
-                    transform: translateX(0)
+                    opacity: 1
 
     .dialog_sidebar_actions
         justify-content: start
@@ -234,6 +232,98 @@ dialog.dialog
     // .dialog_content
     //     & > div *
     //         animation: page-in 200ms ease
+
+.dialog.tool_config, #amend_edit_menu
+    border-radius: 12px
+    padding: 0
+    padding-top: 12px
+
+    background-color: var(--md-sys-color-surface-container-high)
+
+    margin-block: 8px
+
+    & > div > .dialog_content, & > div.form
+        margin: 0
+        padding: 0
+
+    .dialog_bar.form_bar
+        border-radius: 0
+        background-color: transparent
+        min-height: 0
+        padding: 0 16px
+        & > label
+            line-height: 34px
+            height: 32px
+            font-size: var(--md-sys-typescale-body-medium-font-size)
+            font-weight: var(--md-sys-typescale-body-medium-font-weight)
+
+.dialog .tool_config_title
+    text-transform: capitalize
+    font-size: var(--md-sys-typescale-title-medium-font-size)
+    font-weight: var(--md-sys-typescale-title-medium-font-weight)
+    color: var(--md-sys-color-on-surface)
+
+    line-height: 28px
+    height: 32px
+
+    padding: 0 16px
+
+    flex-grow: 1
+
+    display: flex
+    & > .dialog_close_button
+        position: absolute
+        left: auto
+        top: 10px
+        right: 12px
+
+// Amend Edit Menu
+#amend_edit_menu
+    border-radius: 12px 12px 12px 12px
+    padding: 0
+    aspect-ratio: 1
+    height: auto
+    & > div.form
+        background-color: transparent
+
+    .amend_edit_close_button
+        position: absolute
+        width: 30px
+        height: 30px
+        inset: auto
+        inset-inline: auto 10px
+        inset-block-start: 10px
+        border-radius: 6px
+
+        display: flex
+        align-items: center
+        justify-content: center
+
+        z-index: 1
+
+        &::before
+            content: ''
+            position: absolute
+            inset: -10px
+            border-radius: inherit
+            pointer-events: all
+            z-index: -1
+            // background: rgb(255 0 0 / 0.25)
+
+        &::after
+            +stateLayer.base
+
+        &:hover
+            &::after
+                +stateLayer.hover
+
+        &:active
+            &::after
+                +stateLayer.active
+
+    .dialog_bar.form_bar
+        flex-direction: column
+        align-items: start
 
 .tab_bar, #plugin_browser_page_tab_bar
     display: flex
@@ -575,25 +665,31 @@ dialog#settings, dialog#keybindings, dialog#theme
         max-height: calc( 100vh - var(--menu-bar-height) - 90px )
 
 dialog#settings
-    max-width: 700px
     max-height: 900px
     .dialog_content > div
         display: flex
         flex-direction: column
         position: relative
         gap: 8px
+        & > .search_bar
+            width: 50%
 
 #settings_profile_wrapper
     position: absolute
-    right: 0
+    top: -2px
+    right: 8px
     margin-bottom: 0
+    justify-content: center
+    & > .tool
+        background-color: var(--md-sys-color-secondary-container)
+        color: var(--md-sys-color-on-secondary-container) !important
 
 .settings_list
-    outline: 2px solid var(--md-sys-color-outline-variant)
     max-height: 500px
     height: 50vh
-    padding: 12px
-    border-radius: 24px
+    padding: 0
+    border-radius: 8px
+
     li
         display: flex
         flex-direction: row
@@ -602,10 +698,43 @@ dialog#settings
         min-height: 48px
         height: auto
 
-        margin: 0
-        padding: 4px
+        margin: 0 1px
+        padding: 4px 0
 
-        border-bottom: 1px solid var(--md-sys-color-outline-variant)
+        &.has_profile_override
+            border: none
+            border-radius: 8px
+            outline: 1px solid var(--color-profile)
+            outline-offset: -1px
+            padding-block: 4px
+            & > .setting_label
+                transform: translateX(40px)
+
+        .setting_profile_clear_button
+            top: 50%
+            transform: translateY(-50%)
+            left: 14px
+            right: auto
+            width: 22px
+            height: 22px
+            border-radius: 50%
+            &::after
+                +stateLayer.base
+                inset: -9px
+                transform: none
+                pointer-events: all
+                width: auto
+                height: auto
+            &:hover
+                &::after
+                    +stateLayer.hover
+            &:active
+                &::after
+                    +stateLayer.active
+            & > i
+                position: absolute
+                inset: 0
+                margin: 0
 
         .setting_element
             display: flex
@@ -624,12 +753,12 @@ dialog#settings
         .setting_label
             max-width: 500px
             flex-grow: 1
+            transition: 200ms cubic-bezier(0.2, 0.0, 0, 1.0) transform
 
         .setting_name
             color: var(--md-sys-color-primary)
             font-size: var(--md-sys-typescale-title-medium-font-size)
             font-weight: var(--md-sys-typescale-title-medium-font-weight)
-            width: 100%
 
         .setting_description
             letter-spacing: -0.015em
@@ -645,6 +774,16 @@ dialog#settings
 
         input[type=checkbox]
             margin: 0
+
+.setting_profile_value_indicator
+    width: 12px
+    height: 12px
+    opacity: 1
+
+#settings_profile_wrapper > bb-select.profile_is_selected
+    background-color: color-mix(in oklab, var(--color-profile), var(--md-sys-color-surface) 75%)
+    color: color-mix(in oklab, var(--color-profile), var(--md-sys-color-on-surface) 60%)
+    border-bottom-color: color-mix(in oklab, var(--color-profile), var(--md-sys-color-on-surface) 60%)
 
 // Theme dialog
 dialog#theme
@@ -838,59 +977,6 @@ dialog#about
                 font-size: var(--md-sys-typescale-label-large-font-size)
                 color: var(--md-sys-color-on-secondary-container)
 
-// Amend Edit Menu
-#amend_edit_menu
-    display: flex
-    flex-wrap: wrap
-    flex-direction: column
-
-    width: auto
-    height: auto
-    max-height: 20vh
-
-    bottom: 12px
-    right: auto
-    left: 50%
-
-    gap: 4px
-
-    padding: 8px
-    padding-right: 32px
-    border-radius: 12px
-
-    transform: translateX(-50%)
-
-    outline: 1px solid var(--md-sys-color-outline-variant)
-    background: var(--md-sys-color-surface-container)
-
-    & > div.amend_edit_line
-        background: none
-        padding: 0
-        gap: 2px
-        margin-bottom: 0
-
-    .amend_edit_close_button
-        height: 100%
-        background-color: var(--md-sys-color-error-container)
-        color: var(--md-sys-color-on-error-container)
-        border-radius: 0 12px 12px 0
-
-        & > i
-            position: absolute
-            top: 50%
-            transform: translateY(-50%)
-
-        &::before
-            +stateLayer.base
-
-        &:hover
-            &::before
-                +stateLayer.hover
-
-    div.nslide_tool > .nslide
-        background-color: var(--md-sys-color-surface-container-high)
-        border-radius: 8px
-
 // tab overview (giving a shape to the shapeless dialog)
 #tab_overview
     // padding: 16px
@@ -913,7 +999,6 @@ dialog#about
                 border-radius: 6px
     #tab_overview_grid
         gap: 16px
-        max-width: 50vw
         & > li
             background-color: var(--md-sys-color-surface-container)
             border-radius: 12px
@@ -976,6 +1061,12 @@ dialog#about
         border-radius: 0
 
 // Dialog forms
+
+.dialog_bar
+    display: flex
+    flex-wrap: wrap
+    gap: 6px
+
 .dialog_bar.form_bar
     min-height: 48px
     display: flex
@@ -983,10 +1074,10 @@ dialog#about
     justify-content: right
 
     background-color: var(--md-sys-color-surface-container-high)
-    border-radius: 12px
-    margin: 4px 0
-    padding: 0 12px
-    gap: 8px
+    border-radius: 14px
+    margin: 8px 0
+    padding: 0 14px
+    gap: 0
     & > *
         flex-shrink: 0
     & > *:nth-child(2)
@@ -1077,6 +1168,20 @@ ul#view_backups_list
             &:last-child
                 min-width: 4em
                 width: auto
+
+// Reference image
+.toolbar[toolbar_id=reference_images]
+    position: absolute
+    top: 42px
+    background-color: var(--md-sys-color-surface-container-high)
+    border-radius: 12px
+    padding: 6px
+    border: none
+    .tool
+        border-radius: 6px
+    & > .tool
+        &::after
+            transform: translate(0, -28px)
 
 // Plugins: Explorer
 #sidebar_explorer

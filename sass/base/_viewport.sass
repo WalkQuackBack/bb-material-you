@@ -38,8 +38,6 @@ div.preview
     clip-path: inset(0 round 4px)
     margin: 4px 0
     height: calc(100% - 8px)
-
-    background-color: var(--color-checkerboard)
     &:hover
         border-radius: 4px
         outline: 1px solid var(--md-sys-color-outline-variant)
@@ -82,15 +80,13 @@ div.preview
                     border-radius: 0 50% 50% 0
 
 #center
-    background: transparent
+    clip-path: inset(4px 0 round 4px)
     &.checkerboard, &.checkerboard_trigger &.checkerboard_target
-        background: transparent !important
-        .preview
-            --color-checker_offset: rgba(0, 0, 0, 0.16)
-            background-color: var(--color-checkerboard) !important
-            background-image: linear-gradient(45deg, var(--color-checkerboard) 25%, transparent 25%),linear-gradient(-45deg, var(--color-checkerboard) 25%, transparent 25%),linear-gradient(45deg, transparent 75%, var(--color-checkerboard) 75%),linear-gradient(-45deg, var(--color-checker_offset) 75%, var(--color-checkerboard) 75%)
-            background-size: 30px 30px
-            background-position: 0 0, 0 15px, 15px -15px, -15px 0px
+        --color-checker_offset: rgba(0, 0, 0, 0.16)
+        background-color: var(--color-checkerboard) !important
+        background-image: linear-gradient(45deg, var(--color-checkerboard) 25%, transparent 25%),linear-gradient(-45deg, var(--color-checkerboard) 25%, transparent 25%),linear-gradient(45deg, transparent 75%, var(--color-checkerboard) 75%),linear-gradient(-45deg, var(--color-checker_offset) 75%, var(--color-checkerboard) 75%)
+        background-size: 30px 30px
+        background-position: 0 0, 0 15px, 15px -15px, -15px 0px
 
 #work_screen
     grid-template-rows: calc(var(--toolbar-height) + 4px) minmax(200px, 5000px) calc(36px + 4px) // grid-template-areas: "left_bar toolbar toolbar" "left_bar center right_bar" "left_bar status_bar right_bar"
@@ -232,6 +228,6 @@ div.preview
         line-height: 21px
         color: var(--md-sys-color-inverse-on-surface)
 
-        transition: 150ms scale ease//, 150ms filter linear
+        transition: var(--stateScaleTime, 150ms) scale ease//, 150ms filter linear
         &.background
             filter: brightness(0.5)

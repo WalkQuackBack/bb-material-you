@@ -1,4 +1,4 @@
-@use "stateLayer"
+@use "../stateLayer"
 
 .sidebar
 	background-color: transparent
@@ -64,7 +64,7 @@
 			left: 0
 			right: 0
 			opacity: 0
-			transition: 150ms opacity ease
+			transition: var(--stateScaleTime, 150ms) opacity ease
 			background-color: var(--md-sys-color-primary)
 
 		&.selected
@@ -73,6 +73,11 @@
 			color: var(--md-sys-color-on-surface)
 			&::after
 				opacity: 1
+
+@media (hover: hover)
+	.panel:not(.floating)
+		&:hover
+			outline-color: var(--md-sys-color-outline-variant)
 
 .panel
 	background-color: var(--md-sys-color-surface-container-low)
@@ -95,8 +100,6 @@
 		margin: 4px 6px
 		padding: 1px
 		outline-offset: -1px
-		&:hover
-			outline-color: var(--md-sys-color-outline-variant)
 
 	& h3.panel_handle
 		background-color: var(--md-sys-color-surface-container-high)
@@ -175,6 +178,8 @@
 		height: 56px
 		padding: 0 8px
 
+		position: relative
+
 		border-bottom: 1px solid var(--md-sys-color-outline-variant)
 
 		align-items: center
@@ -215,13 +220,18 @@
 
 	.texture_group
 		padding-bottom: 0
-	.texture_group_head
+
+	.texture_group_head > .icon-open-state
+		line-height: 24px
+		height: 32px
+		margin-top: 0
+
+	.texture_group_head, .texture_group_material_config
 		line-height: 24px
 		position: relative
 		font-weight: var(--md-sys-typescale-label-large-font-weight)
 		font-size: var(--md-sys-typescale-label-large-font-size)
 
-		outline: 1px solid var(--md-sys-color-outline-variant)
 		background-color: var(--md-sys-color-surface-container)
 		outline-offset: -1px
 
@@ -229,7 +239,7 @@
 			+stateLayer.base
 
 		&:hover
-			color: var(--color-subtle_text)
+			color: inherit
 			&::after
 				+stateLayer.hover
 
@@ -247,12 +257,15 @@
 			& > i
 				margin-block: 1px
 
+	.texture_group_material_config
+		background-color: transparent
+
 	.texture_group_list
 		margin-left: 0
 		padding-left: 0
 		border-left: none
 		.texture
-			padding-left: 26px
+			padding-left: 30px
 			&::before
 				content: "subdirectory_arrow_right"
 				position: absolute
@@ -269,6 +282,17 @@
 				direction: ltr
 				-webkit-font-smoothing: antialiased
 				text-rendering: optimizeLegibility
+			&:has(> .pbr_channel_icon)::before
+				line-height: calc(54px - 24px)
+			.pbr_channel_icon
+				left: 2px
+				top: 16px
+				color: var(--md-sys-color-secondary)
+
+.texture_group_material_config
+	gap: 6px
+	i:first-child
+		width: 22px
 
 // layers
 #layers_list
@@ -384,7 +408,7 @@
 	height: auto
 	max-height: 200px
 	.color
-		transition: 150ms cubic-bezier(0.2, 0.0, 0, 1.0) scale
+		transition: var(--stateScaleTime, 150ms) cubic-bezier(0.2, 0.0, 0, 1.0) scale
 		position: relative
 		z-index: 1
 		scale: 1
@@ -429,17 +453,33 @@
 // animations panel
 #animations_list
 	.animation
-		height: 40px
+		height: 42px
+		padding: 0 12px
+		gap: 4px
 		display: flex
 		align-items: center
 		&::after
 			+stateLayer.base
 
+		&:hover
+			&::after
+				+stateLayer.hover
+
+		&:active
+			&::after
+				+stateLayer.active
+
 		&.selected
 			background-color: var(--md-sys-color-primary)
 			color: var(--md-sys-color-on-primary)
-			& > .in_list_button
-				color: var(--md-sys-color-on-primary)
+
+#animation_drag_helper
+	background-color: var(--md-sys-color-surface-container-highest)
+	display: flex
+	align-items: center
+	gap: 6px
+	height: 40px
+	border-radius: 8px
 
 // keyframe panel
 #keyframe_type_label
@@ -740,13 +780,18 @@
 .outliner_object
 	position: relative
 	height: auto
-	padding: 4px 4px
+	gap: 0
+	// padding: 9px 7px
+	padding: 0 7px
+
+	height: 34px
+
 	align-items: center
-	gap: 4px
 
 	&:has(> i.fa-eye-slash.icon_off:last-child)
 		.cube_name
 			opacity: 0.5
+
 	input
 		outline-color: transparent
 		height: auto
@@ -756,29 +801,136 @@
 		&:focus
 			outline-width: 1px
 			outline-offset: 3px
+
 	&::after
 		+stateLayer.base
 
 	&:hover
 		&::after
 			+stateLayer.hover
+
+	&:active
+		background: inherit
+
 	&.selected
 		color: var(--md-sys-color-on-secondary-container)
 		background-color: var(--md-sys-color-secondary-container)
 		position: relative
 
-	i.outliner_toggle
-		margin: 0 2px
-		font-size: 14px
-		padding-top: 5px
-		border-radius: 50%
-		width: 24px
-		height: 24px
+	& > i, & > i.material-icons
+		padding-top: 0
+
+	& > i.outliner_toggle
+		margin: 0
+		font-size: 16px
+		padding-top: 0
+
+		max-width: none
+		width: 34px
+		height: 34px
+		line-height: 34px
 		flex-basis: auto
+
 		color: var(--md-sys-color-on-surface-variant)
-		outline: 1px solid var(--md-sys-color-outline)
-		outline-offset: -1px
+
+		position: relative
+
+		&::after
+			+stateLayer.base
+			inset: 3px
+			border-radius: 10px
+
+		&:hover
+			&::after
+				+stateLayer.hover
+
+		&:active
+			&::after
+				+stateLayer.active
+
+		&.material-icons
+			font-size: 18px
+
 		&:not(.icon_off)
-			outline: none
-			background-color: var(--md-sys-color-primary)
-			color: var(--md-sys-color-on-primary)
+			color: var(--md-sys-color-primary)
+			// background-color: var(--md-sys-color-primary)
+			// color: var(--md-sys-color-on-primary)
+
+i.icon-open-state
+	opacity: 1
+	padding-top: 0
+	flex: 0 0 20px
+	height: 34px
+	line-height: 34px
+
+// Collections
+.collection
+	position: relative
+	padding: 0 10px
+	&::after
+		+stateLayer.base
+	&:hover
+		&::after
+			+stateLayer.hover
+	&:active
+		&::after
+			+stateLayer.active
+
+	&.selected
+		background-color: var(--md-sys-color-secondary-container)
+		color: var(--md-sys-color-on-secondary-container)
+
+.collection_content_list
+	& > li
+		background-color: transparent
+		border: 1px solid var(--md-sys-color-outline)
+
+.collection_center_wrapper
+	display: flex
+	flex-direction: column
+	gap: 0
+
+	justify-content: center
+	& > label
+		padding-left: 0
+
+#collection_properties_vue > ul.list
+	border-radius: 12px
+	padding: 6px
+	gap: 0
+	& > li
+		position: relative
+		isolation: isolate
+		border-radius: 0
+		height: 38px
+		margin: 0
+
+		display: flex
+		align-items: center
+		gap: 4px
+
+		white-space: nowrap
+		overflow: hidden
+		text-overflow: ellipsis
+
+		min-width: 149px
+		width: 149px
+		&::before, &::after
+			+stateLayer.base
+			inset: 2px
+			border-radius: 6px
+
+		&::before
+			z-index: -1
+			background-color: var(--md-sys-color-secondary-container)
+
+		&:hover
+			&::after
+				+stateLayer.hover
+		&:active
+			&::after
+				+stateLayer.active
+		&.selected
+			color: var(--md-sys-color-on-secondary-container)
+			&::before
+				opacity: 1

@@ -1,4 +1,4 @@
-@use "stateLayer"
+@use "../stateLayer"
 .contextMenu
     border-radius: 4px
     padding-block: 8px
@@ -34,7 +34,7 @@
                 // outline-offset: -4px
                 // animation-name: inward-grow-outline, inward-shrink-outline
 
-            &:has(.fa-dot-circle)
+            &:has(> :is(i.fa-dot-circle))
                 background-color: var(--md-sys-color-secondary-container)
                 color: var(--md-sys-color-on-secondary-container)
 
@@ -90,11 +90,11 @@
 
         &.enabled
             border-left: none
-            background-color: var(--md-sys-color-primary-container)
-            color: var(--md-sys-color-on-primary-container)
-            padding-inline-end: calc( 12px + 22px )
+            background-color: var(--md-sys-color-secondary-container)
+            color: var(--md-sys-color-on-secondary-container)
+            padding-inline-end: calc( 12px + 24px )
             & > label.keybinding_label
-                color: var(--md-sys-color-on-primary-container)
+                color: var(--md-sys-color-on-secondary-container)
             &::after
                 width: 24px
                 font-size: 22px

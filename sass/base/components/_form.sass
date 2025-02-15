@@ -1,4 +1,4 @@
-@use "stateLayer"
+@use "../stateLayer"
 @use "contextMenu"
 
 // Outlined button (default)
@@ -20,6 +20,7 @@ button
 
     &::after
         +stateLayer.base($color: currentColor)
+        inset: -1px
 
     // &:disabled
     //     cursor: default
@@ -99,6 +100,8 @@ button
     border-radius: 50%
     margin: 0 6px
 
+    color: inherit
+
     position: relative
     overflow: visible
 
@@ -108,6 +111,7 @@ button
         pointer-events: all
 
     &:hover
+        color: inherit
         &::after
             +stateLayer.hover
 
@@ -115,10 +119,12 @@ button
         &::after
             +stateLayer.active
         & > i
-            transform: scale(80%)
+            scale: 0.8
 
     i
-        transition: 100ms cubic-bezier(0.3, 0, 1, 1) transform
+        transition: var(--stateScaleTime, 150ms) cubic-bezier(0.2, 0, 0, 1) scale
+        &.fa_big
+            padding-top: 2px !important
 
 // Snackbar
 // https://m3.material.io/components/snackbar/specs
@@ -236,6 +242,7 @@ bb-select, select
     height: 32px
     background-color: var(--md-sys-color-surface-container-highest)
     padding: 10px
+    padding-inline-end: calc(10px + 24px)
     border-radius: 4px 4px 0 0
     min-width: 112px
     max-width: 280px
@@ -349,7 +356,7 @@ input[type=password],
     & > i
         // For some reason some element styles appear that overwrite this.
         color: inherit !important
-        transition: 150ms cubic-bezier(0.2, 0.0, 0.0, 1.0) scale
+        transition: var(--stateScaleTime, 150ms) cubic-bezier(0.2, 0.0, 0.0, 1.0) scale
 
     // Special state layer DON'T CHANGE IT BREAKS TOOLTIPS
     &::after
@@ -374,6 +381,8 @@ input[type=password],
         color: inherit !important
         & > i
             color: inherit
+            // Testing, predict pressdown action
+            will-change: scale
         &::after
             +stateLayer.hover($color: currentColor)
 
@@ -755,15 +764,30 @@ code, pre
 // Segmented button bar
 // N/A
 .form_inline_select
-    gap: 0
+    gap: 6px
     border-radius: 8px
     overflow: hidden
     & > li
-        background-color: var(--md-sys-color-secondary-container)
-        color: var(--md-sys-color-on-secondary-container)
+        outline: 1px solid var(--md-sys-color-outline)
+        outline-offset: -1px
         font-size: var(--md-sys-typescale-label-large-font-size)
         font-weight: var(--md-sys-typescale-label-large-font-weight)
-        padding: 4px
+        padding: 6px 8px
+        height: 32px
+        position: relative
+        border-radius: inherit
+        &::after
+            +stateLayer.base
+        &:hover
+            &::after
+                +stateLayer.hover
+        &:active
+            &::after
+                +stateLayer.active
+        &.selected
+            outline-color: transparent
+            background-color: var(--md-sys-color-secondary-container)
+            color: var(--md-sys-color-on-secondary-container)
 
 // Divider
 // https://m3.material.io/components/divider/guidelines
@@ -813,3 +837,8 @@ ol.pagination_numbers
             &::after
                 opacity: 1
                 background-color: var(--md-sys-color-secondary-container)
+
+// list
+.list
+    background-color: var(--md-sys-color-surface)
+    color: var(--md-sys-color-on-surface-variant)

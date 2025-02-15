@@ -227,6 +227,10 @@ body.is_touch
                     max-width: none
                     display: flex
 
+    #tab_overview #tab_overview_search
+        top: auto
+        bottom: -64px
+
 @media (orientation: portrait)
     #start_screen
         & > content
@@ -248,3 +252,16 @@ body.is_touch
     #start_files
         &[section_id="start_files"]
             height: 50%
+
+@media (prefers-reduced-motion: reduce)
+    body
+        --stateTransitionTime: 0ms
+        --stateScaleTime: 20ms
+
+    @keyframes scaleYIn
+        from
+            opacity: 0
+
+    @keyframes scaleIn
+        from
+            opacity: 0.5

@@ -25,7 +25,14 @@
 	border-radius: inherit
 	pointer-events: none
 	background-color: $color
-	transition: 75ms opacity linear
+	transition: var(--stateTransitionTime, 75ms) opacity linear, 150ms scale ease
+	// Testing, profile to see if decreases repaint count
+	will-change: opacity
+
+	// scale: 2
+	// clip-path: inset(25% round 96px)
+	// background-color: transparent
+	// background-image: radial-gradient(closest-side, $color max(100% - 70px, 65%), transparent 100%)
 
 // Orig 0.08
 =hover($color: currentColor, $opacity: 0.08)

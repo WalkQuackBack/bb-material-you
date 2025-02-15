@@ -1,4 +1,4 @@
-@use "stateLayer"
+@use "../stateLayer"
 
 #start_screen
 	flex-direction: column
@@ -94,7 +94,7 @@
 							flex-grow: 1
 							&::after
 								// transition: 75ms background linear, 150ms border-radius cubic-bezier(0.2, 0.0, 0, 1.0), 150ms transform cubic-bezier(0.2, 0.0, 0, 1.0), 150ms filter linear
-								transition: 150ms transform cubic-bezier(0.2, 0.0, 0, 1.0)
+								transition: var(--stateScaleTime, 150ms) transform cubic-bezier(0.2, 0.0, 0, 1.0)
 								width: calc(8px + 32px)
 								height: 100%
 								border-radius: 0
@@ -304,10 +304,42 @@
 						color: var(--md-sys-color-on-primary)
 
 				&[section_id="quick_setup"]
+					width: min-content
+					max-width: 50vw
+					& > h2
+						font-weight: var(--md-sys-typescale-headline-medium-font-weight)
+						font-size: var(--md-sys-typescale-headline-medium-font-size)
 					& > div
-						margin: .25rem 0
+						margin: .5rem 0
+						width: 100% !important
+						flex-direction: colum
+						align-items: stretch
+						gap: 4px
+						& > label
+							flex-grow: 1
+						&:last-child
+							flex-direction: column
+							align-items: stretch
+							gap: 0
+							& > .quick_setup_theme
+								padding: 8px
+								border-radius: 100px
+								position: relative
+								margin-inline: -8px
 
-				&[section_id="new_version"]
+								& > div
+									margin-inline-end: 10px
+
+								&::after
+									+stateLayer.base
+								&:hover
+									&::after
+										+stateLayer.hover
+								&:active
+									&::after
+										+stateLayer.active
+
+				&[section_id="new_version"], &[section_id="quick_setup"]
 					inset: auto 0
 					top: 50%
 					transform: translateY(-50%)
@@ -327,6 +359,7 @@
 						box-shadow: 0 0 0 150vw var(--md-sys-color-scrim)
 						opacity: 0.5
 
+				&[section_id="new-version"]
 					.start_screen_features
 						flex-grow: 1
 						padding: 0

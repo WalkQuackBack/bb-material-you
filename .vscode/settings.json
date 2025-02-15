@@ -2,7 +2,7 @@
 	"editor.insertSpaces": false,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"[sass]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "syler.sass-indented"
 	},
 	"[css]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"

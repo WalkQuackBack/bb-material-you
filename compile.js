@@ -1,15 +1,35 @@
 import {
-	writeFileSync,
+	readFileSync,
+	writeFile,
 	existsSync,
 	mkdirSync,
 } from 'fs';
 import { join } from 'path';
-import { compile } from 'sass';
+import { compileAsync } from 'sass';
+import { transform } from 'lightningcss';
 
-const baseDir = './sass/variants';
-const outputDir = './dist';
+const IN = './sass/variants';
+const OUT = './dist';
 
-// Define your folder structure
+const THEME_PREFIX = 'bbm3-';
+const PROJECT_NAME_PRETTY = 'Material You ';
+const VERSION = '0.1.0';
+
+const AUTHOR =
+	process.env.USER ||
+	process.env.USERNAME ||
+	'';
+
+const TEMPLATE = JSON.parse(
+	readFileSync('./template.bbtheme')
+);
+const THUMBNAIL = transform({
+	minify: true,
+	code: Buffer.from(
+		readFileSync('./thumbnail.css')
+	),
+}).code.toString();
+
 const folders = {
 	highContrast: {
 		dark: [
@@ -53,23 +73,64 @@ const folders = {
 			'red',
 		],
 	},
+	misc: [
+		'tokensOnlyBbBlueDark',
+		'tokensOnlyBbBlueLight',
+	],
 };
 
-// Compile each Sass file
-const compileSass = (inputPath, outputPath) => {
-	const result = compile({
-		file: inputPath,
+if (!existsSync(OUT)) {
+	mkdirSync(OUT, {
+		recursive: true,
 	});
-	writeFileSync(outputPath, result + '.css');
-	console.log(
-		`Compiled ${inputPath} to ${outputPath}`
+}
+
+// build
+const compileToTheme = async (
+	inputPath,
+	variant
+) => {
+	const compiled = await compileAsync(
+		inputPath
+	);
+	const result = transform({
+		minify: true,
+		code: Buffer.from(compiled.css),
+	});
+
+	const themeData = TEMPLATE;
+	themeData.name =
+		PROJECT_NAME_PRETTY +
+		variant.replaceAll('-', ' ');
+	themeData.author = AUTHOR;
+	themeData.css =
+		`
+    /*
+      ${PROJECT_NAME_PRETTY}
+      Variant ${variant}
+      Version ${VERSION}
+      Compiled on: ${new Date().toUTCString()}
+    */
+   ` + result.code.toString();
+
+	themeData.thumbnail = THUMBNAIL;
+
+	writeFile(
+		join(
+			OUT,
+			`${THEME_PREFIX + variant}.bbtheme`
+		),
+		JSON.stringify(themeData),
+		(err) => {
+			if (err) throw err;
+			console.log(`Built ${variant}`);
+		}
 	);
 };
 
 const createFoldersAndCompile = (
 	structure,
-	basePath,
-	outputPath
+	basePath
 ) => {
 	for (const [
 		folderName,
@@ -79,16 +140,6 @@ const createFoldersAndCompile = (
 			basePath,
 			folderName
 		);
-		const newOutputPath = join(
-			outputPath,
-			folderName
-		);
-
-		if (!existsSync(newOutputPath)) {
-			mkdirSync(newOutputPath, {
-				recursive: true,
-			});
-		}
 
 		if (Array.isArray(contents)) {
 			contents.forEach((file) => {
@@ -96,66 +147,24 @@ const createFoldersAndCompile = (
 					newBasePath,
 					`${file}.sass`
 				);
-				const outputFile = join(
-					newOutputPath,
-					`${file}.css`
-				);
-				compileSass(
+				const variant =
+					newBasePath
+						.replaceAll('\\', '-')
+						.substring(14) +
+					'-' +
+					file;
+				compileToTheme(
 					inputFile,
-					outputFile
+					variant
 				);
 			});
 		} else {
 			createFoldersAndCompile(
 				contents,
-				newBasePath,
-				newOutputPath
+				newBasePath
 			);
 		}
 	}
 };
 
-createFoldersAndCompile(
-	folders,
-	baseDir,
-	outputDir
-);
-
-// for (const folder of fs.readdirSync("../")) {
-//   const theme = path.join("..", folder, "theme.bbtheme")
-//   if (fs.existsSync(theme)) {
-//     console.log('Theme path found: ' + theme)
-
-//     const css = path.join("..", folder, CSS_FILE_NAME + ".css")
-//     const thumbnail = THUMB_FILE_LOCATION
-//     const output = path.join("..", folder + ".bbtheme")
-
-//     if (!fs.existsSync(css) && !fs.existsSync(thumbnail)) {
-//       console.warn("!!!     Couldn't find CSS or thumbnail file, skipping compile")
-//       fs.copyFileSync(theme, output)
-//     } else {
-//       const themeData = JSON.parse(fs.readFileSync(theme))
-//       themeData.name = folder
-
-//       if (fs.existsSync(css)) {
-//         const cssData = fs.readFileSync(css, "utf-8")
-//         themeData.css =
-//           `/*\n\n${themeData.name}\nBy ${themeData.author}/\n*/\n` +
-//         transform({
-//               code: Buffer.from(cssData),
-//               minify: true
-//         }).code.toString()
-//       }
-//       if (fs.existsSync(thumbnail)) {
-//         const thumbnailData = fs.readFileSync(thumbnail, "utf-8")
-//         themeData.thumbnail = transform({
-//           code: Buffer.from(thumbnailData),
-//           minify: true,
-//           include: Features.Nesting
-//         }).code.toString()
-//       }
-
-//       fs.writeFileSync(output, JSON.stringify(themeData, null, 2))
-//     }
-//   }
-// }
+createFoldersAndCompile(folders, IN);

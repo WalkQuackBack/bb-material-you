@@ -16,9 +16,13 @@ Color themes
 
 -   Colours into folders (themes/\<color>/variant)
     -   lime
+        -   All variants available
     -   purple
+        -   All variants available
     -   red
+        -   All variants available
     -   bb-blue
+        -   All variants available
 -   Variants:
     -   dark
     -   dark-mc
@@ -31,12 +35,14 @@ Color themes
     -   Roboto Font `theme/core/robotoTypescale`
     -   Assistant Font `theme/core/assistantTypescale`
 
-## Building
+## Development
 
-### Preresequites
+### Preresquites
 
 -   [Node.js](https://nodejs.org/)
 -   [Sass](https://sass-lang.com/install/)
+-   [Live Dev Reloader](ADDLINK) Blockbench Plugin
+    -   Only necessary if wants hot reload
 
 Pull the necessary local development modules
 
@@ -45,7 +51,21 @@ Pull the necessary local development modules
 	npm install
 ```
 
-Run the compiler script
+### Hot reload dev
+
+Run the hot reload build script, changes will end up in `main.css` file in root directory.
+
+Theme is modifiable from within file
+
+```bash
+    compile.cmd
+```
+
+Watch `main.css` file with Hot Dev Reloader plugin, using action `Watch plugin or CSS file`
+
+### Building
+
+Run the compiler script. Theme files will be in `dist` directory
 
 ```bash
 	npm run build

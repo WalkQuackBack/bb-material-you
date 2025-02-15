@@ -1,1 +1,1 @@
-sass --watch .\sass\main.sass main.css --style=compressed --no-source-map
+sass --watch .\sass\base\main.sass main.css --style=compressed --no-source-map
